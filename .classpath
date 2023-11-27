@@ -6,5 +6,11 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_framework_coreui_j2se"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_framework_coreui_src4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_byteobjects_src4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_framework_coredraw_j2se"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_framework_coredraw_src4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_framework_coredraw_swing"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_swing"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_framework_coreio_src4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pasa_cbentley_framework_coreio_src5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
