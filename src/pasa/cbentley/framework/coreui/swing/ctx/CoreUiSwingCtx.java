@@ -55,6 +55,10 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       if (this.getClass() == CoreUiSwingCtx.class) {
          a_Init();
       }
+      
+      //#debug
+      toDLog().pInit("Created", this, CoreUiSwingCtx.class, "CoreUiSwingCtx", LVL_05_FINE, true);
+
    }
 
    public CoreIO5Ctx getCoreIO5Ctx() {
