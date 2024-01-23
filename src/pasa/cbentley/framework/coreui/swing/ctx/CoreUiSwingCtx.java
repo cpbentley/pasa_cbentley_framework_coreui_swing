@@ -4,6 +4,7 @@ import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.byteobjects.src4.ctx.IConfigBO;
 import pasa.cbentley.core.src4.interfaces.IExecutor;
 import pasa.cbentley.core.src4.logging.Dctx;
+import pasa.cbentley.core.src4.stator.IStatorFactory;
 import pasa.cbentley.framework.coredraw.swing.ctx.CoreDrawSwingCtx;
 import pasa.cbentley.framework.coreio.src5.ctx.CoreIO5Ctx;
 import pasa.cbentley.framework.coreui.j2se.ctx.CoreUiJ2seCtx;
@@ -13,9 +14,11 @@ import pasa.cbentley.framework.coreui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.coreui.src4.engine.KeyMapAbstract;
 import pasa.cbentley.framework.coreui.src4.engine.WrapperAbstract;
 import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasOwner;
+import pasa.cbentley.framework.coreui.src4.interfaces.IHostUI;
 import pasa.cbentley.framework.coreui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.framework.coreui.swing.engine.CanvasSwing;
 import pasa.cbentley.framework.coreui.swing.engine.CoreSwingExecutor;
+import pasa.cbentley.framework.coreui.swing.engine.HostUISwing;
 import pasa.cbentley.framework.coreui.swing.engine.KeyMapSwing;
 import pasa.cbentley.framework.coreui.swing.wrapper.CanvasOwnerDefaultSwing;
 import pasa.cbentley.swing.ctx.SwingCtx;
@@ -34,6 +37,10 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
 
    private KeyMapSwing              keyMap;
 
+   private CoreUiSwingStatorFactory statorFactory;
+
+   private HostUISwing hostui;
+
    public CoreUiSwingCtx(CoreDrawSwingCtx cdc, SwingCtx sc, CoreIO5Ctx cio5c) {
       this(new ConfigCoreUISwingDef(cdc.getUCtx()), cdc, sc, cio5c);
    }
@@ -51,14 +58,21 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       this.cio5c = cio5c;
       executor = new CoreSwingExecutor(this);
       keyMap = new KeyMapSwing(uc);
-      
+      hostui = new HostUISwing(this);
       if (this.getClass() == CoreUiSwingCtx.class) {
          a_Init();
       }
-      
+
       //#debug
       toDLog().pInit("Created", this, CoreUiSwingCtx.class, "CoreUiSwingCtx", LVL_05_FINE, true);
 
+   }
+
+   public IStatorFactory getStatorFactory() {
+      if (statorFactory == null) {
+         statorFactory = new CoreUiSwingStatorFactory(this);
+      }
+      return statorFactory;
    }
 
    public CoreIO5Ctx getCoreIO5Ctx() {
@@ -90,7 +104,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
    protected void matchConfig(IConfigBO config, ByteObject settings) {
       super.matchConfig(config, settings);
    }
-   
+
    public CoreDrawSwingCtx getCoreDrawSwingCtx() {
       return cdc;
    }
@@ -102,7 +116,6 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
    public SwingCtx getSwingCtx() {
       return sc;
    }
-
 
    public CanvasHostAbstract createCanvasClass(WrapperAbstract wrapper, ByteObject canvasTech) {
       CanvasSwing canvasHost = new CanvasSwing(this, canvasTech);
@@ -131,10 +144,15 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
    }
 
    //#mdebug
+
+   //#mdebug
    public void toString(Dctx dc) {
-      dc.root(this, "CoreUiSwingCtx");
+      dc.root(this, CoreUiSwingCtx.class, 138);
       toStringPrivate(dc);
       super.toString(dc.sup());
+
+      dc.nlLvl(executor, "executor");
+      dc.nlLvl(keyMap, "keyMap");
    }
 
    private void toStringPrivate(Dctx dc) {
@@ -142,10 +160,16 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
    }
 
    public void toString1Line(Dctx dc) {
-      dc.root1Line(this, "CoreUiSwingCtx");
+      dc.root1Line(this, CoreUiSwingCtx.class);
       toStringPrivate(dc);
       super.toString1Line(dc.sup1Line());
    }
+
+   public IHostUI getHostUI() {
+      return hostui;
+   }
+
+   //#enddebug
 
    //#enddebug
 

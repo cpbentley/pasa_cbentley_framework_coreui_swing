@@ -146,7 +146,6 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
          //#debug
          toDLog().pInit("BufferStrategy created", this, WrapperSwingTopFrame.class, "getGraphics", LVL_05_FINE, false);
 
-         
       }
       myGraphics = (Graphics2D) bufferStrategy.getDrawGraphics();
 
@@ -154,7 +153,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       int y = this.frame.getInsets().top;
       int x = this.frame.getInsets().left;
       myGraphics.translate(x, y);
-      
+
       //#debug
       toDLog().pInit("getDrawGraphics", new Graphics2DStringable(cucSwing.getSwingCtx(), myGraphics), WrapperSwingTopFrame.class, "getGraphics", LVL_05_FINE, false);
 
@@ -281,7 +280,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
 
    public void setPosition(int x, int y) {
       //#debug
-      toLog().pBridge1("x=" + x + ", y=" + y, this, WrapperSwingTopFrame.class, "setPosition");
+      toDLog().pBridge1("x=" + x + ", y=" + y, this, WrapperSwingTopFrame.class, "setPosition");
       frame.setLocation(x, y);
    }
 
@@ -296,7 +295,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       //#debug
       String msg = "w=" + w + ", h=" + h + " ActuFrame=" + frame.getBounds().getWidth() + "," + frame.getBounds().getHeight();
       //#debug
-      toLog().pBridge1(msg, this, WrapperSwingTopFrame.class, "setSize@line238");
+      toDLog().pBridge1(msg, this, WrapperSwingTopFrame.class, "setSize@line238");
 
       frame.setSize(frameWidth, frameHeight);
       frame.pack(); //this line force the correct sizing.. why?
@@ -313,7 +312,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
 
    //#mdebug
    public void toString(Dctx dc) {
-      dc.root(this, WrapperSwingTopFrame.class);
+      dc.root(this, WrapperSwingTopFrame.class, 316);
       dc.appendVarWithSpace("Title", frame.getTitle());
       dc.nl();
       dc.appendVarWithSpace("Position", frame.getX() + "," + frame.getY());

@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 import pasa.cbentley.core.src4.ctx.UCtx;
 import pasa.cbentley.framework.coreui.src4.engine.KeyMapAbstract;
-import pasa.cbentley.framework.coreui.src4.tech.IBCodes;
+import pasa.cbentley.framework.coreui.src4.tech.ITechCodes;
 
 public class KeyMapSwingRegular extends KeyMapAbstract  {
 

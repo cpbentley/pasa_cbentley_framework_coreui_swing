@@ -20,20 +20,20 @@ public class RealCanvasJComponent extends JComponent implements IStringable {
     */
    private static final long      serialVersionUID = 3629668552412508682L;
 
-   private CanvasHostSwing        bridge;
+   private CanvasHostSwing        canvasHost;
 
    protected final CoreUiSwingCtx csc;
 
-   public RealCanvasJComponent(CoreUiSwingCtx csc, CanvasHostSwing b) {
+   public RealCanvasJComponent(CoreUiSwingCtx csc, CanvasHostSwing canvas) {
       this.csc = csc;
-      this.bridge = b;
+      this.canvasHost = canvas;
    }
 
    public void paint(Graphics g) {
       //this should not be called in active rendering TODO
       Graphics2D g2 = (Graphics2D) g;
       try {
-         bridge.paint(g2);
+         canvasHost.paint(g2);
       } catch (Exception e) {
          String msg = e.getMessage();
 
@@ -57,8 +57,9 @@ public class RealCanvasJComponent extends JComponent implements IStringable {
    }
 
    public void toString(Dctx dc) {
-      dc.root(this, RealCanvasJComponent.class);
+      dc.root(this, RealCanvasJComponent.class, 60);
       toStringPrivate(dc);
+      dc.nlLvl(canvasHost, "canvasHost");
       dc.nl();
       csc.getSwingCtx().toSD().d((JComponent) this, dc);
    }

@@ -34,9 +34,9 @@ import pasa.cbentley.framework.coreui.j2se.engine.CanvasHostJ2SE;
 import pasa.cbentley.framework.coreui.src4.ctx.ITechCtxSettingsCoreUI;
 import pasa.cbentley.framework.coreui.src4.engine.WrapperAbstract;
 import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasHost;
-import pasa.cbentley.framework.coreui.src4.tech.IBCodes;
-import pasa.cbentley.framework.coreui.src4.tech.ITechCanvasHost;
-import pasa.cbentley.framework.coreui.src4.utils.KeyReapeatBlock;
+import pasa.cbentley.framework.coreui.src4.tech.ITechCodes;
+import pasa.cbentley.framework.coreui.src4.tech.IBOCanvasHost;
+import pasa.cbentley.framework.coreui.src4.utils.KeyRepeatBlock;
 import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
 import pasa.cbentley.framework.coreui.swing.wrapper.WrapperAbstractSwing;
 import pasa.cbentley.swing.data.FileDrop;
@@ -57,7 +57,7 @@ import pasa.cbentley.swing.data.FileDrop;
  * <br>
  * Manages the MasterCanvas as the {@link DisplayableAWT}. <br>
  * <br>
- * Uses {@link DeviceDriver} to convert key to the Bentley framework codes of {@link IBCodes}.
+ * Uses {@link DeviceDriver} to convert key to the Bentley framework codes of {@link ITechCodes}.
  * <br>
  * For example, if letter switch, forward letter key event to the MasterCanvas framework.
  * <br>
@@ -70,7 +70,7 @@ import pasa.cbentley.swing.data.FileDrop;
  * @author Charles-Philip Bentley
  *
  */
-public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasHost, ITechCanvasHost, KeyListener, ComponentListener, MouseListener, MouseMotionListener, FocusListener, MouseWheelListener {
+public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasHost, IBOCanvasHost, KeyListener, ComponentListener, MouseListener, MouseMotionListener, FocusListener, MouseWheelListener {
 
    /**
     * 
@@ -79,7 +79,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
 
    private GraphicsSwing          graphicsSwing;
 
-   private KeyReapeatBlock        keyreapeat;
+   private KeyRepeatBlock        keyreapeat;
 
    private MouseEvent             lastMove;
 
@@ -102,7 +102,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
       super(scc, tech);
       this.scc = scc;
 
-      keyreapeat = new KeyReapeatBlock(scc);
+      keyreapeat = new KeyRepeatBlock(scc);
       graphicsSwing = new GraphicsSwing(scc.getCoreDrawSwingCtx());
 
       //#debug
@@ -166,7 +166,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
    @Override
    public void componentHidden(ComponentEvent e) {
       //#debug
-      toLog().pBridge1("", this, CanvasHostSwing.class, "componentHidden");
+      toDLog().pBridge1("", this, CanvasHostSwing.class, "componentHidden");
    }
 
    /**
@@ -175,7 +175,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
     */
    public void componentMoved(ComponentEvent e) {
       //#debug
-      toLog().pBridge1("[" + e.getComponent().getWidth() + ":" + e.getComponent().getHeight() + "]", this, CanvasHostSwing.class, "componentMoved");
+      toDLog().pBridge1("[" + e.getComponent().getWidth() + ":" + e.getComponent().getHeight() + "]", this, CanvasHostSwing.class, "componentMoved");
 
       int x = e.getComponent().getX();
       int y = e.getComponent().getY();
@@ -191,7 +191,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
       //we already are in the AWT Event Queue.
 
       //#debug
-      toLog().pBridge1("[" + e.getComponent().getWidth() + ":" + e.getComponent().getHeight() + "]", this, CanvasHostSwing.class, "componentResized");
+      toDLog().pBridge1("[" + e.getComponent().getWidth() + ":" + e.getComponent().getHeight() + "]", this, CanvasHostSwing.class, "componentResized");
 
       int w = getICWidth();
       int h = getICHeight();
@@ -203,7 +203,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
          //toLog().printBridge("#SwingCanvasBridge componentResized h<=0 : " + h);
          h = 1;
       }
-      canvasSizeChangedBridge(0, w, h);
+      canvasSizeChangedBridge(w, h);
       //c.repaint();
    }
 
@@ -239,7 +239,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
 
       String message = text + " KeyChar=" + c + " KeyCode=" + j2seKeyCode + "-> [" + fcode + "] " + modss + " " + loc;
       //#debug
-      toLog().pBridge1(message, this, CanvasHostSwing.class, method);
+      toDLog().pBridge1(message, this, CanvasHostSwing.class, method);
    }
 
    /**
@@ -259,7 +259,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
    @Override
    public void focusGained(FocusEvent e) {
       //#debug
-      toLog().pBridge1("", this, CanvasHostSwing.class, "focusGained");
+      toDLog().pBridge1("", this, CanvasHostSwing.class, "focusGained");
 
       focusGainedBridge();
    }
@@ -267,13 +267,13 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
    @Override
    public void focusLost(FocusEvent e) {
       //#debug
-      toLog().pBridge1("", this, CanvasHostSwing.class, "focusLost");
+      toDLog().pBridge1("", this, CanvasHostSwing.class, "focusLost");
 
       focusLostBridge();
    }
 
    /**
-    * Maps the {@link MouseEvent} to the Bentley's framework {@link IBCodes} IDs.
+    * Maps the {@link MouseEvent} to the Bentley's framework {@link ITechCodes} IDs.
     * <br>
     * <br>
     * 
@@ -283,14 +283,14 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
    protected int getButtonID(MouseEvent e) {
       int but = e.getButton();
       if (but == MouseEvent.BUTTON1) {
-         return IBCodes.PBUTTON_0_DEFAULT; // written 11/8/2017 
+         return ITechCodes.PBUTTON_0_DEFAULT; // written 11/8/2017 
       }
       //When you press the right mouse button and the left mouse button together.. the left mouse button is detected as the right button
-      int butID = IBCodes.PBUTTON_0_DEFAULT;
+      int butID = ITechCodes.PBUTTON_0_DEFAULT;
       if (SwingUtilities.isRightMouseButton(e)) {
-         butID = IBCodes.PBUTTON_1_RIGHT;
+         butID = ITechCodes.PBUTTON_1_RIGHT;
       } else if (SwingUtilities.isMiddleMouseButton(e)) {
-         butID = IBCodes.PBUTTON_2_MIDDLE;
+         butID = ITechCodes.PBUTTON_2_MIDDLE;
       }
       return butID;
    }
@@ -376,7 +376,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
     */
    public void mouseEntered(MouseEvent e) {
       //#debug
-      toLog().pBridge1("[" + e.getX() + " " + e.getY() + "]", this, CanvasHostSwing.class, "mouseEntered");
+      toDLog().pBridge1("[" + e.getX() + " " + e.getY() + "]", this, CanvasHostSwing.class, "mouseEntered");
 
       realComponent.requestFocusInWindow();
       //in swing, enter side will be 0
@@ -395,7 +395,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
     */
    public void mouseExited(MouseEvent e) {
       //#debug
-      toLog().pBridge1("[" + e.getX() + " " + e.getY() + "]", this, CanvasHostSwing.class, "mouseExited");
+      toDLog().pBridge1("[" + e.getX() + " " + e.getY() + "]", this, CanvasHostSwing.class, "mouseExited");
       //in swing exit will be -1
       mouseExitedBridge(e.getX(), e.getY());
    }
@@ -409,7 +409,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
 
    public void mousePinched() {
       if (lastMove != null) {
-         toLog().pBridge1("#SwingCanvasBridge#mousePinched [" + lastMove.getX() + " " + lastMove.getY() + "]", this, CanvasHostSwing.class, "mousePinched");
+         toDLog().pBridge1("#SwingCanvasBridge#mousePinched [" + lastMove.getX() + " " + lastMove.getY() + "]", this, CanvasHostSwing.class, "mousePinched");
          //mousePinchedBridge(lastMove.getX(), lastMove.getY(), 0);
       }
    }
@@ -421,7 +421,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
       int bid = getButtonID(e);
 
       //#debug
-      toLog().pBridge1("[" + e.getX() + " " + e.getY() + "]" + " butID=" + bid, this, CanvasHostSwing.class, "mousePressed");
+      toDLog().pBridge1("[" + e.getX() + " " + e.getY() + "]" + " butID=" + bid, this, CanvasHostSwing.class, "mousePressed");
 
       mousePressedBridge(e.getX(), e.getY(), pointerID, bid);
    }
@@ -430,7 +430,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
       int bid = getButtonID(e);
 
       //#debug
-      toLog().pBridge1("[" + e.getX() + " " + e.getY() + "]" + " butID=" + bid, this, CanvasHostSwing.class, "mouseReleased");
+      toDLog().pBridge1("[" + e.getX() + " " + e.getY() + "]" + " butID=" + bid, this, CanvasHostSwing.class, "mouseReleased");
 
       mouseReleasedBridge(e.getX(), e.getY(), pointerID, bid);
    }
@@ -439,7 +439,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
    public void mouseWheelMoved(MouseWheelEvent e) {
 
       //#debug
-      toLog().pBridge1("ScrollAmount=" + e.getScrollAmount() + ":" + e.getScrollType() + " WheelRoation=" + e.getWheelRotation(), this, CanvasHostSwing.class, "mouseWheelMoved");
+      toDLog().pBridge1("ScrollAmount=" + e.getScrollAmount() + ":" + e.getScrollType() + " WheelRoation=" + e.getWheelRotation(), this, CanvasHostSwing.class, "mouseWheelMoved");
 
       mouseWheeledBridge(e.getScrollAmount(), e.getWheelRotation());
    }

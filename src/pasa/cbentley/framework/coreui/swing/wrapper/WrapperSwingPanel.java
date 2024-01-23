@@ -56,16 +56,16 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
     * If this wrapper is wrapped, outside.. ask the parent
     */
    public void setTitle(String title) {
-      getWrapperManager().setTitle(this, title);
+      cuc.getWrapperManager().setTitle(this, title);
    }
 
    public void setSize(int w, int h) {
-      getWrapperManager().setSize(this, w, h);
+      cuc.getWrapperManager().setSize(this, w, h);
    }
 
    public void setPosition(int x, int y) {
       //TODO what if we want to move tab in a different tab!
-      getWrapperManager().setPosition(this, x, y);
+      cuc.getWrapperManager().setPosition(this, x, y);
    }
 
    public boolean hasFeatureSupport(int feature) {
