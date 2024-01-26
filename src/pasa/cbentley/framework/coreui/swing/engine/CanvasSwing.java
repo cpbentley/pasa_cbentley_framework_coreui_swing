@@ -10,6 +10,7 @@ import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
 import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasHost;
 import pasa.cbentley.framework.coreui.src4.tech.ITechFeaturesCanvas;
 import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.coreui.swing.ctx.ITechStatorableCoreUiSwing;
 import pasa.cbentley.swing.image.CursorSwing;
 
 /**
@@ -57,8 +58,8 @@ public class CanvasSwing extends CanvasHostSwing implements ICanvasHost {
     */
    public IGraphics getGraphics() {
       //some wrapper can't access the graphics object. they will throw an exception
-      if(realComponent instanceof RealCanvasAWTCanvas) {
-         RealCanvasAWTCanvas canvas = (RealCanvasAWTCanvas)realComponent;
+      if (realComponent instanceof RealCanvasAWTCanvas) {
+         RealCanvasAWTCanvas canvas = (RealCanvasAWTCanvas) realComponent;
          //return canvas.getGraphics();
       }
       return wrapperSwing.getGraphics();
@@ -82,6 +83,10 @@ public class CanvasSwing extends CanvasHostSwing implements ICanvasHost {
       realComponent.repaint(x, y, w, h);
    }
 
+   public int getStatorableClassID() {
+     return ITechStatorableCoreUiSwing.CLASSID_1_CANVASSWING;
+   }
+
    /**
     * This invalidates the Graphics Object.
     * <br>
@@ -90,7 +95,8 @@ public class CanvasSwing extends CanvasHostSwing implements ICanvasHost {
     */
    public void icSetSize(int w, int h) {
       //we want this size overall with wrapper?
-      realComponent.setPreferredSize(new Dimension(w, h));
+      Dimension dim = new Dimension(w, h);
+      realComponent.setPreferredSize(dim); //NOTE: added to frame then pack
       wrapper.setSize(w, h);
    }
 

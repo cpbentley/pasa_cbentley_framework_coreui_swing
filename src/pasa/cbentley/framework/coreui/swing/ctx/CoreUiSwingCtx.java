@@ -13,7 +13,7 @@ import pasa.cbentley.framework.coreui.src4.ctx.ITechCtxSettingsCoreUI;
 import pasa.cbentley.framework.coreui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.coreui.src4.engine.KeyMapAbstract;
 import pasa.cbentley.framework.coreui.src4.engine.WrapperAbstract;
-import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasOwner;
+import pasa.cbentley.framework.coreui.src4.interfaces.IWrapperManager;
 import pasa.cbentley.framework.coreui.src4.interfaces.IHostUI;
 import pasa.cbentley.framework.coreui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.framework.coreui.swing.engine.CanvasSwing;
@@ -37,12 +37,12 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
 
    private KeyMapSwing              keyMap;
 
-   private CoreUiSwingStatorFactory statorFactory;
+   private StatorFactoryCoreUiSwing statorFactory;
 
    private HostUISwing hostui;
 
    public CoreUiSwingCtx(CoreDrawSwingCtx cdc, SwingCtx sc, CoreIO5Ctx cio5c) {
-      this(new ConfigCoreUISwingDef(cdc.getUCtx()), cdc, sc, cio5c);
+      this(null, cdc, sc, cio5c);
    }
 
    /**
@@ -52,7 +52,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
     * @param cio5c
     */
    public CoreUiSwingCtx(IConfigCoreUiJ2se configUI, CoreDrawSwingCtx cdc, SwingCtx sc, CoreIO5Ctx cio5c) {
-      super(configUI, cdc);
+      super(configUI == null ? new ConfigCoreUISwingDef(cdc.getUCtx()) : configUI, cdc);
       this.cdc = cdc;
       this.sc = sc;
       this.cio5c = cio5c;
@@ -70,7 +70,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
 
    public IStatorFactory getStatorFactory() {
       if (statorFactory == null) {
-         statorFactory = new CoreUiSwingStatorFactory(this);
+         statorFactory = new StatorFactoryCoreUiSwing(this);
       }
       return statorFactory;
    }
@@ -117,7 +117,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       return sc;
    }
 
-   public CanvasHostAbstract createCanvasClass(WrapperAbstract wrapper, ByteObject canvasTech) {
+   public CanvasHostAbstract createCanvasHost(WrapperAbstract wrapper, ByteObject canvasTech) {
       CanvasSwing canvasHost = new CanvasSwing(this, canvasTech);
       canvasHost.setWrapper(wrapper);
       return canvasHost;
@@ -131,7 +131,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       sc.executeLaterInUIThread(run);
    }
 
-   public ICanvasOwner createCanvasOwnerDefault() {
+   public IWrapperManager createCanvasOwnerDefault() {
       return new CanvasOwnerDefaultSwing(this);
    }
 

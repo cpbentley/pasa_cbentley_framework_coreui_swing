@@ -13,10 +13,14 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import pasa.cbentley.core.src4.io.BADataOS;
 import pasa.cbentley.core.src4.logging.Dctx;
+import pasa.cbentley.core.src4.stator.StatorReader;
+import pasa.cbentley.core.src4.stator.StatorWriter;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
 import pasa.cbentley.framework.coredraw.swing.engine.GraphicsSwing;
 import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.coreui.swing.ctx.ITechStatorableCoreUiSwing;
 import pasa.cbentley.framework.coreui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.swing.window.CBentleyFrame;
 
@@ -58,6 +62,15 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       frame = new CBentleyFrame(cuc.getSwingCtx());
    }
 
+   public int getStatorableClassID() {
+      return ITechStatorableCoreUiSwing.CLASSID_2_WRAPPER_SWING_TOP_FRAME;
+   }
+
+   public void onExit() {
+      frame.setVisible(false);
+      frame.dispose();
+   }
+
    /**
     * Sets the Canvas to the frame
     */
@@ -68,6 +81,28 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
 
       frame.addComponentListener(frameListener);
 
+   }
+
+   public void stateReadFrom(StatorReader state) {
+      super.stateReadFrom(state);
+      int x = state.readInt();
+      int y = state.readInt();
+      
+      //#debug
+      toDLog().pData("Reading x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateReadFrom", LVL_05_FINE, true);
+      
+      this.setPosition(x, y);
+   }
+
+   public void stateWriteTo(StatorWriter state) {
+      super.stateWriteTo(state);
+      int x = frame.getX();
+      int y = frame.getY();
+      BADataOS writer = state.getWriter();
+      //#debug
+      toDLog().pData("Writing x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateWriteTo", LVL_05_FINE, true);
+      writer.writeInt(x);
+      writer.writeInt(y);
    }
 
    public void canvasHide() {
@@ -312,28 +347,26 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
 
    //#mdebug
    public void toString(Dctx dc) {
-      dc.root(this, WrapperSwingTopFrame.class, 316);
-      dc.appendVarWithSpace("Title", frame.getTitle());
-      dc.nl();
-      dc.appendVarWithSpace("Position", frame.getX() + "," + frame.getY());
-      dc.appendVarWithSpace("Size", frame.getWidth() + "," + frame.getHeight());
+      dc.root(this, WrapperSwingTopFrame.class, 350);
+      toStringPrivate(dc);
+      super.toString(dc.sup());
       dc.nl();
       dc.appendVarWithSpace("isDoubleBuffered", frame.isDoubleBuffered());
       dc.appendVarWithSpace("isAlwaysOnTop", frame.isAlwaysOnTop());
-
-      super.toString(dc.sup());
-
       dc.nlLvl(frame, CBentleyFrame.class);
       dc.nlLvl(frameListener, FrameComponentListener.class);
    }
 
-   /**
-    * Called when  {@link Dctx} see the same object for another time
-    * @param dc
-    */
+   private void toStringPrivate(Dctx dc) {
+      dc.appendVarWithSpace("Title", frame.getTitle());
+      dc.appendVarWithSpace("Position", frame.getX() + "," + frame.getY());
+      dc.appendVarWithSpace("Size", frame.getWidth() + "," + frame.getHeight());
+   }
+
    public void toString1Line(Dctx dc) {
       dc.root1Line(this, WrapperSwingTopFrame.class);
-      super.toString1Line(dc);
+      toStringPrivate(dc);
+      super.toString1Line(dc.sup1Line());
    }
    //#enddebug
 

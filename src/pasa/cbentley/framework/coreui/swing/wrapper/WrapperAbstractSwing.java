@@ -4,7 +4,7 @@ import pasa.cbentley.core.src4.logging.Dctx;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
 import pasa.cbentley.framework.coreui.j2se.engine.WrapperAbstractJ2SE;
 import pasa.cbentley.framework.coreui.src4.engine.CanvasHostAbstract;
-import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasOwner;
+import pasa.cbentley.framework.coreui.src4.interfaces.IWrapperManager;
 import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
 import pasa.cbentley.framework.coreui.swing.engine.CanvasHostSwing;
 
@@ -78,7 +78,7 @@ public abstract class WrapperAbstractSwing extends WrapperAbstractJ2SE {
     * Initialize the wrapper with the Canvas.
     * <br><br>
     * The {@link SwingManager} when requested to create a new canvas does the following
-    * <li> Asks its {@link ICanvasOwner} which wrapper to create.
+    * <li> Asks its {@link IWrapperManager} which wrapper to create.
     * <li> Creates a {@link CanvasHostSwing} with requested capabilities (OpenGL, Active Rendering etc)
     * <li> Link the Wrapper with the {@link CanvasHostSwing}
     * <li> Link the {@link CanvasHostSwing} with the wrapper.
