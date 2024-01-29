@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 
 import pasa.cbentley.core.src4.io.BADataOS;
 import pasa.cbentley.core.src4.logging.Dctx;
+import pasa.cbentley.core.src4.logging.ITechDev;
 import pasa.cbentley.core.src4.stator.StatorReader;
 import pasa.cbentley.core.src4.stator.StatorWriter;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
@@ -67,6 +68,8 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
    }
 
    public void onExit() {
+      //#debug
+      toDLog().pFlow("", frame, WrapperSwingTopFrame.class, "onExit@72", LVL_05_FINE, DEV_4_THREAD);
       frame.setVisible(false);
       frame.dispose();
    }
@@ -89,7 +92,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       int y = state.readInt();
       
       //#debug
-      toDLog().pData("Reading x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateReadFrom", LVL_05_FINE, true);
+      toDLog().pStator("Reading x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateReadFrom", LVL_05_FINE, true);
       
       this.setPosition(x, y);
    }
@@ -100,7 +103,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       int y = frame.getY();
       BADataOS writer = state.getWriter();
       //#debug
-      toDLog().pData("Writing x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateWriteTo", LVL_05_FINE, true);
+      toDLog().pStator("Writing x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateWriteTo", LVL_05_FINE, true);
       writer.writeInt(x);
       writer.writeInt(y);
    }

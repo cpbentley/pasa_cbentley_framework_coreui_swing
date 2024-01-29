@@ -20,7 +20,7 @@ import pasa.cbentley.framework.coreui.swing.engine.CanvasSwing;
 import pasa.cbentley.framework.coreui.swing.engine.CoreSwingExecutor;
 import pasa.cbentley.framework.coreui.swing.engine.HostUISwing;
 import pasa.cbentley.framework.coreui.swing.engine.KeyMapSwing;
-import pasa.cbentley.framework.coreui.swing.wrapper.CanvasOwnerDefaultSwing;
+import pasa.cbentley.framework.coreui.swing.wrapper.WrapperManagerDefaultSwing;
 import pasa.cbentley.swing.ctx.SwingCtx;
 
 public class CoreUiSwingCtx extends CoreUiJ2seCtx {
@@ -51,8 +51,8 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
     * @param sc
     * @param cio5c
     */
-   public CoreUiSwingCtx(IConfigCoreUiJ2se configUI, CoreDrawSwingCtx cdc, SwingCtx sc, CoreIO5Ctx cio5c) {
-      super(configUI == null ? new ConfigCoreUISwingDef(cdc.getUCtx()) : configUI, cdc);
+   public CoreUiSwingCtx(IConfigCoreUiSwing configUI, CoreDrawSwingCtx cdc, SwingCtx sc, CoreIO5Ctx cio5c) {
+      super(configUI == null ? new ConfigCoreUiSwingDef(cdc.getUCtx()) : configUI, cdc);
       this.cdc = cdc;
       this.sc = sc;
       this.cio5c = cio5c;
@@ -118,6 +118,10 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
    }
 
    public CanvasHostAbstract createCanvasHost(WrapperAbstract wrapper, ByteObject canvasTech) {
+      CanvasHostAbstract cha = getWrapperManager().createCanvasHost(wrapper, canvasTech);
+      if(cha != null) {
+         return cha;
+      }
       CanvasSwing canvasHost = new CanvasSwing(this, canvasTech);
       canvasHost.setWrapper(wrapper);
       return canvasHost;
@@ -132,7 +136,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
    }
 
    public IWrapperManager createCanvasOwnerDefault() {
-      return new CanvasOwnerDefaultSwing(this);
+      return new WrapperManagerDefaultSwing(this);
    }
 
    public IExecutor getExecutor() {

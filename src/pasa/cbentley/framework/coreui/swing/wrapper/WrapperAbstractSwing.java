@@ -32,9 +32,9 @@ public abstract class WrapperAbstractSwing extends WrapperAbstractJ2SE {
 
    /**
     * Put the {@link CanvasHostSwing} into the metal of a real Swing compo.
-    * @param ac
+    * @param canvasHostSwing
     */
-   protected abstract void addCanvas(CanvasHostSwing ac);
+   protected abstract void addCanvas(CanvasHostSwing canvasHostSwing);
 
 
    /**

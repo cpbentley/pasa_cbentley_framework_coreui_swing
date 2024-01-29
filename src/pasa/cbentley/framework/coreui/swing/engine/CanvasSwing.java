@@ -84,7 +84,7 @@ public class CanvasSwing extends CanvasHostSwing implements ICanvasHost {
    }
 
    public int getStatorableClassID() {
-     return ITechStatorableCoreUiSwing.CLASSID_1_CANVASSWING;
+      return ITechStatorableCoreUiSwing.CLASSID_1_CANVASSWING;
    }
 
    /**
@@ -97,6 +97,7 @@ public class CanvasSwing extends CanvasHostSwing implements ICanvasHost {
       //we want this size overall with wrapper?
       Dimension dim = new Dimension(w, h);
       realComponent.setPreferredSize(dim); //NOTE: added to frame then pack
+      realComponent.setSize(dim); //NOTE: added to frame then pack
       wrapper.setSize(w, h);
    }
 
@@ -195,7 +196,17 @@ public class CanvasSwing extends CanvasHostSwing implements ICanvasHost {
    }
 
    private void toStringPrivate(Dctx dc) {
-
+      if (realComponent != null) {
+         dc.append('[');
+         dc.append(realComponent.getX());
+         dc.append(',');
+         dc.append(realComponent.getY());
+         dc.append(' ');
+         dc.append(realComponent.getWidth());
+         dc.append('-');
+         dc.append(realComponent.getHeight());
+         dc.append(']');
+      }
    }
 
    public void toString1Line(Dctx dc) {
