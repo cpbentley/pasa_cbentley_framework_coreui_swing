@@ -9,7 +9,7 @@ import pasa.cbentley.framework.coredraw.swing.ctx.CoreDrawSwingCtx;
 import pasa.cbentley.framework.coreio.src5.ctx.CoreIO5Ctx;
 import pasa.cbentley.framework.coreui.j2se.ctx.CoreUiJ2seCtx;
 import pasa.cbentley.framework.coreui.j2se.ctx.IConfigCoreUiJ2se;
-import pasa.cbentley.framework.coreui.src4.ctx.ITechCtxSettingsCoreUI;
+import pasa.cbentley.framework.coreui.src4.ctx.IBOCtxSettingsCoreUI;
 import pasa.cbentley.framework.coreui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.coreui.src4.engine.KeyMapAbstract;
 import pasa.cbentley.framework.coreui.src4.engine.WrapperAbstract;
@@ -64,7 +64,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       }
 
       //#debug
-      toDLog().pInit("Created", this, CoreUiSwingCtx.class, "CoreUiSwingCtx", LVL_05_FINE, true);
+      toDLog().pInit("", this, CoreUiSwingCtx.class, "Created@70", LVL_04_FINER, true);
 
    }
 
@@ -84,7 +84,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       //#debug
       toDLog().pFlow("", null, CoreUiSwingCtx.class, "applySettings", LVL_04_FINER, true);
 
-      if (settingsNew.hasFlag(ITechCtxSettingsCoreUI.CTX_COREUI_OFFSET_01_FLAG1, ITechCtxSettingsCoreUI.CTX_COREUI_FLAG_2_DRAG_DROP)) {
+      if (settingsNew.hasFlag(IBOCtxSettingsCoreUI.CTX_COREUI_OFFSET_01_FLAG1, IBOCtxSettingsCoreUI.CTX_COREUI_FLAG_2_DRAG_DROP)) {
          CanvasHostAbstract[] canvases2 = getCanvases();
          for (int i = 0; i < canvases2.length; i++) {
             if (canvases2[i] instanceof CanvasHostSwing) {

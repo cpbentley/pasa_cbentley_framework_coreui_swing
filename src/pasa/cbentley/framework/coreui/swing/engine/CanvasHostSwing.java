@@ -31,7 +31,7 @@ import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
 import pasa.cbentley.framework.coredraw.src4.interfaces.ITechGraphics;
 import pasa.cbentley.framework.coredraw.swing.engine.GraphicsSwing;
 import pasa.cbentley.framework.coreui.j2se.engine.CanvasHostJ2SE;
-import pasa.cbentley.framework.coreui.src4.ctx.ITechCtxSettingsCoreUI;
+import pasa.cbentley.framework.coreui.src4.ctx.IBOCtxSettingsCoreUI;
 import pasa.cbentley.framework.coreui.src4.engine.WrapperAbstract;
 import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasHost;
 import pasa.cbentley.framework.coreui.src4.tech.ITechCodes;
@@ -243,7 +243,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
    }
 
    /**
-    * Enables drops from {@link ITechCtxSettingsCoreUI}
+    * Enables drops from {@link IBOCtxSettingsCoreUI}
     */
    public void enableFileDrop() {
       FileDropListener listnere = new FileDropListener(scc, this);

@@ -27,8 +27,8 @@ public class FileDropListener implements Listener {
          CanvasHostEvent be = new CanvasHostEvent(cuc, ITechEventHost.ACTION_10_DRAG_DROP, canvas);
          be.setSource(fci);
          //then on the bus
-         int eventID = IEventsCoreUI.EVENT_ID_04_DRAG_DROP;
-         int producerID = IEventsCoreUI.PID_01_DRAG_DROP;
+         int eventID = IEventsCoreUI.PID_02_CANVAS_02_DRAG_DROP;
+         int producerID = IEventsCoreUI.PID_02_CANVAS;
          Object producer = canvas;
          BusEvent me = cuc.getEventBus().createEvent(producerID, eventID, producer);
          me.setParamO1(fci);
