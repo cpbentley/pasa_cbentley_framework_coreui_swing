@@ -18,7 +18,7 @@ public class Graphics2DStringable implements IStringable {
 
    public Graphics2DStringable(SwingCtx sc, Graphics2D g) {
       this.sc = sc;
-      this.uc = sc.getUCtx();
+      this.uc = sc.getUC();
       this.g = g;
 
    }

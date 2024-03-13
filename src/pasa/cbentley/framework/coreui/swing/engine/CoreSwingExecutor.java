@@ -63,7 +63,7 @@ public class CoreSwingExecutor extends J2SEThreader {
    }
 
    public UCtx toStringGetUCtx() {
-      return cusc.getUCtx();
+      return cusc.getUC();
    }
 
    //#enddebug

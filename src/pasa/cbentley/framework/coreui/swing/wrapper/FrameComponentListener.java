@@ -62,7 +62,7 @@ public class FrameComponentListener implements ComponentListener, IStringable {
    }
 
    public UCtx toStringGetUCtx() {
-      return scc.getUCtx();
+      return scc.getUC();
    }
 
    //#enddebug

@@ -52,7 +52,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
     * @param cio5c
     */
    public CoreUiSwingCtx(IConfigCoreUiSwing configUI, CoreDrawSwingCtx cdc, SwingCtx sc, CoreIO5Ctx cio5c) {
-      super(configUI == null ? new ConfigCoreUiSwingDef(cdc.getUCtx()) : configUI, cdc);
+      super(configUI == null ? new ConfigCoreUiSwingDef(cdc.getUC()) : configUI, cdc);
       this.cdc = cdc;
       this.sc = sc;
       this.cio5c = cio5c;

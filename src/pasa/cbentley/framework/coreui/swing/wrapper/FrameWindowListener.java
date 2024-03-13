@@ -104,7 +104,7 @@ public class FrameWindowListener implements WindowListener, WindowFocusListener,
    }
 
    public UCtx toStringGetUCtx() {
-      return scc.getUCtx();
+      return scc.getUC();
    }
 
 

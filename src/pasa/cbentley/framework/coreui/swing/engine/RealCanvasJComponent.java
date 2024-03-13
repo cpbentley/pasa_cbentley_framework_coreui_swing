@@ -78,7 +78,7 @@ public class RealCanvasJComponent extends JComponent implements IStringable {
    }
 
    public UCtx toStringGetUCtx() {
-      return csc.getUCtx();
+      return csc.getUC();
    }
 
    //#enddebug

@@ -69,7 +69,7 @@ public class RealCanvasAWTCanvas extends Canvas implements IStringable {
    }
 
    public UCtx toStringGetUCtx() {
-      return csc.getUCtx();
+      return csc.getUC();
    }
 
    //#enddebug
