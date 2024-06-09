@@ -1,7 +1,10 @@
 package pasa.cbentley.framework.coreui.swing.engine;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
+
+import javax.swing.SwingUtilities;
 
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.core.src4.ctx.UCtx;
@@ -108,6 +111,18 @@ public class CanvasSwing extends CanvasHostSwing implements ICanvasHost {
     */
    public void icSetXY(int x, int y) {
       wrapper.setPosition(x, y);
+   }
+
+   public int getScreenY(int y) {
+      Point p = new Point(0, y);
+      SwingUtilities.convertPointToScreen(p, realComponent);
+      return p.y;
+   }
+
+   public int getScreenX(int x) {
+      Point p = new Point(x, 0);
+      SwingUtilities.convertPointToScreen(p, realComponent);
+      return p.x;
    }
 
    public boolean isCanvasFeatureEnabled(int feature) {

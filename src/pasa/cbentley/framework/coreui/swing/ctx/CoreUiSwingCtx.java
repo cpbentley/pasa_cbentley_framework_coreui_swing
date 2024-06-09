@@ -82,7 +82,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
    protected void applySettings(ByteObject settingsNew, ByteObject settingsOld) {
       super.applySettings(settingsNew, settingsOld);
       //#debug
-      toDLog().pFlow("", null, CoreUiSwingCtx.class, "applySettings", LVL_04_FINER, true);
+      toDLog().pFlow("", null, CoreUiSwingCtx.class, "applySettings@85", LVL_04_FINER, true);
 
       if (settingsNew.hasFlag(IBOCtxSettingsCoreUI.CTX_COREUI_OFFSET_01_FLAG1, IBOCtxSettingsCoreUI.CTX_COREUI_FLAG_2_DRAG_DROP)) {
          CanvasHostAbstract[] canvases2 = getCanvases();
