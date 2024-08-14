@@ -1,14 +1,14 @@
-package pasa.cbentley.framework.coreui.swing.wrapper;
+package pasa.cbentley.framework.core.ui.swing.wrapper;
 
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.core.src4.logging.Dctx;
-import pasa.cbentley.framework.coreui.src4.ctx.ObjectCUC;
-import pasa.cbentley.framework.coreui.src4.engine.CanvasHostAbstract;
-import pasa.cbentley.framework.coreui.src4.engine.WrapperAbstract;
-import pasa.cbentley.framework.coreui.src4.interfaces.IWrapperManager;
-import pasa.cbentley.framework.coreui.src4.tech.IBOCanvasHost;
-import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.coreui.swing.engine.CanvasSwing;
+import pasa.cbentley.framework.core.ui.src4.ctx.ObjectCUC;
+import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
+import pasa.cbentley.framework.core.ui.src4.engine.WrapperAbstract;
+import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
+import pasa.cbentley.framework.core.ui.src4.tech.IBOCanvasHost;
+import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasSwing;
 
 /**
  * Canvas owner creates {@link WrapperSwingTopFrame}.

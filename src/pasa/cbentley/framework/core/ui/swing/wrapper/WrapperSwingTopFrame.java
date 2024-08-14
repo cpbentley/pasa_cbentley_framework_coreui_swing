@@ -1,4 +1,4 @@
-package pasa.cbentley.framework.coreui.swing.wrapper;
+package pasa.cbentley.framework.core.ui.swing.wrapper;
 
 import java.awt.AWTException;
 import java.awt.BufferCapabilities;
@@ -18,11 +18,11 @@ import pasa.cbentley.core.src4.logging.Dctx;
 import pasa.cbentley.core.src4.logging.ITechDev;
 import pasa.cbentley.core.src4.stator.StatorReader;
 import pasa.cbentley.core.src4.stator.StatorWriter;
+import pasa.cbentley.framework.core.draw.swing.engine.GraphicsSwing;
+import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.core.ui.swing.ctx.ITechStatorableCoreUiSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
-import pasa.cbentley.framework.coredraw.swing.engine.GraphicsSwing;
-import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.coreui.swing.ctx.ITechStatorableCoreUiSwing;
-import pasa.cbentley.framework.coreui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.swing.window.CBentleyFrame;
 
 /**
@@ -81,7 +81,6 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       Component component = canvas.getRealCanvas();
       frame.add(component);
       frameListener = new FrameComponentListener(cuc, ac);
-
       frame.addComponentListener(frameListener);
 
    }
@@ -90,10 +89,10 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       super.stateReadFrom(state);
       int x = state.readInt();
       int y = state.readInt();
-      
+
       //#debug
-      toDLog().pStator("Reading x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateReadFrom", LVL_05_FINE, true);
-      
+      toDLog().pStator("Reading x=" + x + " y=" + y, this, WrapperSwingTopFrame.class, "stateReadFrom", LVL_05_FINE, true);
+
       this.setPosition(x, y);
    }
 
@@ -103,7 +102,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       int y = frame.getY();
       BADataOS writer = state.getWriter();
       //#debug
-      toDLog().pStator("Writing x="+x + " y="+y, this, WrapperSwingTopFrame.class, "stateWriteTo", LVL_05_FINE, true);
+      toDLog().pStator("Writing x=" + x + " y=" + y, this, WrapperSwingTopFrame.class, "stateWriteTo", LVL_05_FINE, true);
       writer.writeInt(x);
       writer.writeInt(y);
    }
@@ -119,7 +118,8 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
 
    public void flushGraphics() {
       //#debug
-      toDLog().pFlow("isVSync=" + isVSync, this, WrapperSwingTopFrame.class, "flushGraphics", LVL_05_FINE, true);
+      toDLog().pFlow("isVSync=" + isVSync, this, WrapperSwingTopFrame.class, "flushGraphics@122", LVL_03_FINEST, true);
+
       //if an exception.. this must be called
       if (myGraphics != null) {
          myGraphics.dispose();
@@ -166,7 +166,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
    public IGraphics getGraphics() {
       //frame.setIgnoreRepaint(true);
       //#debug
-      toDLog().pFlow("", this, WrapperSwingTopFrame.class, "getGraphics", LVL_05_FINE, true);
+      toDLog().pFlow("", this, WrapperSwingTopFrame.class, "getGraphics@170", LVL_03_FINEST, true);
       if (bufferStrategy == null) {
 
          BufferCapabilities bc = frame.getGraphicsConfiguration().getBufferCapabilities();
@@ -195,11 +195,18 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       //#debug
       toDLog().pInit("getDrawGraphics", new Graphics2DStringable(cucSwing.getSwingCtx(), myGraphics), WrapperSwingTopFrame.class, "getGraphics", LVL_05_FINE, false);
 
-      GraphicsSwing gx = new GraphicsSwing(cuc.getCoreDrawSwingCtx(), myGraphics);
+      if(gx == null) {
+         gx = new GraphicsSwing(cuc.getCoreDrawSwingCtx(), myGraphics);
+      } else {
+         gx.setGraphics2D(myGraphics);
+      }
+      
       //#debug
       gx.toStringSetNameDebug("WrapperSwingTopFrame getGraphics");
       return gx;
    }
+
+   private GraphicsSwing gx;
 
    public String getTitle() {
       return frame.getTitle();
@@ -213,17 +220,18 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       return frame.getY();
    }
 
-   public boolean hasFeatureSupport(int feature) {
-      if (feature == SUP_ID_26_CANVAS_RESIZE_MOVE) {
-         return true;
-      } else if (feature == SUP_ID_16_CUSTOM_CURSORS) {
-         return true;
-      } else if (feature == SUP_ID_28_ALWAYS_ON_TOP) {
-         return true;
-      } else if (feature == SUP_ID_29_UNDECORATED) {
-         return true;
+   public boolean hasFeatureSupport(int featureID) {
+      switch (featureID) {
+         case SUP_ID_16_CUSTOM_CURSORS:
+         case SUP_ID_26_CANVAS_RESIZE_MOVE:
+         case SUP_ID_27_FULLSCREEN:
+         case SUP_ID_28_ALWAYS_ON_TOP:
+         case SUP_ID_29_UNDECORATED:
+         case SUP_ID_30_MINIMIZE:
+            return true;
+         default:
+            return false;
       }
-      return false;
    }
 
    public boolean isContained() {
@@ -261,13 +269,17 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       if (feature == SUP_ID_27_FULLSCREEN) {
          //TODO the set full screen mode is bad. it forces frame as visible
          setFullScreenMode(mode);
+         //send a resize event
          return true;
       } else if (feature == SUP_ID_28_ALWAYS_ON_TOP) {
          frame.setAlwaysOnTop(mode);
          return true;
       } else if (feature == SUP_ID_29_UNDECORATED) {
-         //TODO must be invisible. dispose it
-         frame.setUndecorated(mode);
+         //https://stackoverflow.com/questions/875132/how-to-call-setundecorated-after-a-frame-is-made-visible
+         //must be invisible. dispose it
+         frame.dispose();
+         frame.setUndecorated(mode); //only then can you change os elements
+         frame.setVisible(true);
          return true;
       } else if (feature == SUP_ID_30_MINIMIZE) {
          if (mode) {

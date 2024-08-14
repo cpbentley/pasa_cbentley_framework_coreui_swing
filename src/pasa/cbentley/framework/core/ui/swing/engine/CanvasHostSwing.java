@@ -1,4 +1,4 @@
-package pasa.cbentley.framework.coreui.swing.engine;
+package pasa.cbentley.framework.core.ui.swing.engine;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -27,18 +27,18 @@ import pasa.cbentley.core.src4.logging.Dctx;
 import pasa.cbentley.core.src4.logging.IStringable;
 import pasa.cbentley.core.src4.stator.StatorReader;
 import pasa.cbentley.core.src4.stator.StatorWriter;
+import pasa.cbentley.framework.core.draw.swing.engine.GraphicsSwing;
+import pasa.cbentley.framework.core.ui.j2se.engine.CanvasHostJ2se;
+import pasa.cbentley.framework.core.ui.src4.ctx.IBOCtxSettingsCoreUi;
+import pasa.cbentley.framework.core.ui.src4.engine.WrapperAbstract;
+import pasa.cbentley.framework.core.ui.src4.interfaces.ICanvasHost;
+import pasa.cbentley.framework.core.ui.src4.tech.IBOCanvasHost;
+import pasa.cbentley.framework.core.ui.src4.tech.ITechCodes;
+import pasa.cbentley.framework.core.ui.src4.utils.KeyRepeatBlock;
+import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.core.ui.swing.wrapper.WrapperAbstractSwing;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
 import pasa.cbentley.framework.coredraw.src4.interfaces.ITechGraphics;
-import pasa.cbentley.framework.coredraw.swing.engine.GraphicsSwing;
-import pasa.cbentley.framework.coreui.j2se.engine.CanvasHostJ2SE;
-import pasa.cbentley.framework.coreui.src4.ctx.IBOCtxSettingsCoreUI;
-import pasa.cbentley.framework.coreui.src4.engine.WrapperAbstract;
-import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasHost;
-import pasa.cbentley.framework.coreui.src4.tech.ITechCodes;
-import pasa.cbentley.framework.coreui.src4.tech.IBOCanvasHost;
-import pasa.cbentley.framework.coreui.src4.utils.KeyRepeatBlock;
-import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.coreui.swing.wrapper.WrapperAbstractSwing;
 import pasa.cbentley.swing.data.FileDrop;
 
 /**
@@ -70,7 +70,7 @@ import pasa.cbentley.swing.data.FileDrop;
  * @author Charles-Philip Bentley
  *
  */
-public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasHost, IBOCanvasHost, KeyListener, ComponentListener, MouseListener, MouseMotionListener, FocusListener, MouseWheelListener {
+public abstract class CanvasHostSwing extends CanvasHostJ2se implements ICanvasHost, IBOCanvasHost, KeyListener, ComponentListener, MouseListener, MouseMotionListener, FocusListener, MouseWheelListener {
 
    /**
     * 
@@ -243,7 +243,7 @@ public abstract class CanvasHostSwing extends CanvasHostJ2SE implements ICanvasH
    }
 
    /**
-    * Enables drops from {@link IBOCtxSettingsCoreUI}
+    * Enables drops from {@link IBOCtxSettingsCoreUi}
     */
    public void enableFileDrop() {
       FileDropListener listnere = new FileDropListener(scc, this);

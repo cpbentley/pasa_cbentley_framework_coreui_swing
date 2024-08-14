@@ -1,12 +1,12 @@
-package pasa.cbentley.framework.coreui.swing.wrapper;
+package pasa.cbentley.framework.core.ui.swing.wrapper;
 
 import pasa.cbentley.core.src4.logging.Dctx;
+import pasa.cbentley.framework.core.ui.j2se.engine.WrapperAbstractJ2se;
+import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
+import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
+import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
-import pasa.cbentley.framework.coreui.j2se.engine.WrapperAbstractJ2SE;
-import pasa.cbentley.framework.coreui.src4.engine.CanvasHostAbstract;
-import pasa.cbentley.framework.coreui.src4.interfaces.IWrapperManager;
-import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.coreui.swing.engine.CanvasHostSwing;
 
 /**
  * Handles the wrapping of {@link CanvasHostSwing} in something else.
@@ -19,7 +19,7 @@ import pasa.cbentley.framework.coreui.swing.engine.CanvasHostSwing;
  * @author Charles Bentley
  *
  */
-public abstract class WrapperAbstractSwing extends WrapperAbstractJ2SE {
+public abstract class WrapperAbstractSwing extends WrapperAbstractJ2se {
 
    protected CanvasHostSwing      canvas;
 
@@ -82,7 +82,7 @@ public abstract class WrapperAbstractSwing extends WrapperAbstractJ2SE {
     * <li> Creates a {@link CanvasHostSwing} with requested capabilities (OpenGL, Active Rendering etc)
     * <li> Link the Wrapper with the {@link CanvasHostSwing}
     * <li> Link the {@link CanvasHostSwing} with the wrapper.
-    * <br>
+    * 
     * The method is responsible to "add" the Canvas to the wrapper structure.
     * Defines the kernel and everything
     * @param can {@link CanvasHostAbstract}

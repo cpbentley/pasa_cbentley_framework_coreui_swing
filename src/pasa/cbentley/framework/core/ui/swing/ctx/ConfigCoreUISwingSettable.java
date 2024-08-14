@@ -1,8 +1,8 @@
-package pasa.cbentley.framework.coreui.swing.ctx;
+package pasa.cbentley.framework.core.ui.swing.ctx;
 
 import pasa.cbentley.core.src4.ctx.UCtx;
 import pasa.cbentley.core.src4.logging.Dctx;
-import pasa.cbentley.framework.coreui.j2se.ctx.ConfigCoreUiJ2seSettable;
+import pasa.cbentley.framework.core.ui.j2se.ctx.ConfigCoreUiJ2seSettable;
 
 public class ConfigCoreUISwingSettable extends ConfigCoreUiJ2seSettable  implements IConfigCoreUiSwing {
 

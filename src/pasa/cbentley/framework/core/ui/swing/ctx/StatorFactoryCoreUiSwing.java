@@ -1,4 +1,4 @@
-package pasa.cbentley.framework.coreui.swing.ctx;
+package pasa.cbentley.framework.core.ui.swing.ctx;
 
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.byteobjects.src4.stator.StatorReaderBO;
@@ -7,8 +7,8 @@ import pasa.cbentley.core.src4.stator.IStatorFactory;
 import pasa.cbentley.core.src4.stator.IStatorable;
 import pasa.cbentley.core.src4.stator.ITechStator;
 import pasa.cbentley.core.src4.stator.StatorReader;
-import pasa.cbentley.framework.coreui.swing.engine.CanvasSwing;
-import pasa.cbentley.framework.coreui.swing.wrapper.WrapperSwingTopFrame;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasSwing;
+import pasa.cbentley.framework.core.ui.swing.wrapper.WrapperSwingTopFrame;
 
 public class StatorFactoryCoreUiSwing implements IStatorFactory, ITechStatorableCoreUiSwing {
 

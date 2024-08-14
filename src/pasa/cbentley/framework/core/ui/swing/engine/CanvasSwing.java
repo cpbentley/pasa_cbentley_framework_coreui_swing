@@ -1,4 +1,4 @@
-package pasa.cbentley.framework.coreui.swing.engine;
+package pasa.cbentley.framework.core.ui.swing.engine;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -9,11 +9,11 @@ import javax.swing.SwingUtilities;
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.core.src4.ctx.UCtx;
 import pasa.cbentley.core.src4.logging.Dctx;
+import pasa.cbentley.framework.core.ui.src4.interfaces.ICanvasHost;
+import pasa.cbentley.framework.core.ui.src4.tech.ITechFeaturesCanvas;
+import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.core.ui.swing.ctx.ITechStatorableCoreUiSwing;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
-import pasa.cbentley.framework.coreui.src4.interfaces.ICanvasHost;
-import pasa.cbentley.framework.coreui.src4.tech.ITechFeaturesCanvas;
-import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.coreui.swing.ctx.ITechStatorableCoreUiSwing;
 import pasa.cbentley.swing.image.CursorSwing;
 
 /**

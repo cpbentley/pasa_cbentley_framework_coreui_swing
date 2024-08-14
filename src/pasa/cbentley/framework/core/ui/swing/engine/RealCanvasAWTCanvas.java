@@ -1,4 +1,4 @@
-package pasa.cbentley.framework.coreui.swing.engine;
+package pasa.cbentley.framework.core.ui.swing.engine;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
@@ -8,7 +8,7 @@ import pasa.cbentley.core.src4.ctx.UCtx;
 import pasa.cbentley.core.src4.logging.Dctx;
 import pasa.cbentley.core.src4.logging.IDLog;
 import pasa.cbentley.core.src4.logging.IStringable;
-import pasa.cbentley.framework.coreui.swing.ctx.CoreUiSwingCtx;
+import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
 
 /**
  * Used by Video playback.

@@ -1,4 +1,4 @@
-package pasa.cbentley.framework.coreui.swing.wrapper;
+package pasa.cbentley.framework.core.ui.swing.wrapper;
 
 import java.awt.Graphics2D;
 

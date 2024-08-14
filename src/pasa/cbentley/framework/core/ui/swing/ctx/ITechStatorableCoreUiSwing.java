@@ -1,4 +1,4 @@
-package pasa.cbentley.framework.coreui.swing.ctx;
+package pasa.cbentley.framework.core.ui.swing.ctx;
 
 import pasa.cbentley.core.src4.stator.ITechStatorable;
 

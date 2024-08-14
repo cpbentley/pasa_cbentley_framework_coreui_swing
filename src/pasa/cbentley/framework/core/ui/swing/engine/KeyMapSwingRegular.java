@@ -1,11 +1,11 @@
-package pasa.cbentley.framework.coreui.swing.engine;
+package pasa.cbentley.framework.core.ui.swing.engine;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
 import pasa.cbentley.core.src4.ctx.UCtx;
-import pasa.cbentley.framework.coreui.src4.engine.KeyMapAbstract;
-import pasa.cbentley.framework.coreui.src4.tech.ITechCodes;
+import pasa.cbentley.framework.core.ui.src4.engine.KeyMapAbstract;
+import pasa.cbentley.framework.core.ui.src4.tech.ITechCodes;
 
 public class KeyMapSwingRegular extends KeyMapAbstract  {
 
