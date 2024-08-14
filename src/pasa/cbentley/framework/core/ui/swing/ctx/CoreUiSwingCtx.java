@@ -16,8 +16,8 @@ import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.core.ui.src4.engine.KeyMapAbstract;
 import pasa.cbentley.framework.core.ui.src4.engine.WrapperAbstract;
 import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasSwing;
 import pasa.cbentley.framework.core.ui.swing.engine.HostDataUiSwing;
 import pasa.cbentley.framework.core.ui.swing.engine.HostFeatureUiSwing;
 import pasa.cbentley.framework.core.ui.swing.engine.HostServiceUiSwing;
@@ -70,7 +70,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       }
 
       //#debug
-      toDLog().pInit("", this, CoreUiSwingCtx.class, "Created@78", LVL_04_FINER, true);
+      toDLog().pCreate("", this, CoreUiSwingCtx.class, "Created@73", LVL_04_FINER, true);
 
    }
 
@@ -82,15 +82,15 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       if (settingsNew.hasFlag(IBOCtxSettingsCoreUi.CTX_COREUI_OFFSET_01_FLAG1, IBOCtxSettingsCoreUi.CTX_COREUI_FLAG_2_DRAG_DROP)) {
          CanvasHostAbstract[] canvases2 = getCanvases();
          for (int i = 0; i < canvases2.length; i++) {
-            if (canvases2[i] instanceof CanvasHostSwing) {
-               ((CanvasHostSwing) canvases2[i]).enableFileDrop();
+            if (canvases2[i] instanceof CanvasHostSwingAbstract) {
+               ((CanvasHostSwingAbstract) canvases2[i]).enableFileDrop();
             }
          }
       } else {
          CanvasHostAbstract[] canvases2 = getCanvases();
          for (int i = 0; i < canvases2.length; i++) {
-            if (canvases2[i] instanceof CanvasHostSwing) {
-               ((CanvasHostSwing) canvases2[i]).fileDropDisable();
+            if (canvases2[i] instanceof CanvasHostSwingAbstract) {
+               ((CanvasHostSwingAbstract) canvases2[i]).fileDropDisable();
             }
          }
       }
@@ -101,7 +101,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       if (cha != null) {
          return cha;
       }
-      CanvasSwing canvasHost = new CanvasSwing(this, canvasTech);
+      CanvasHostSwing canvasHost = new CanvasHostSwing(this, canvasTech);
       canvasHost.setWrapper(wrapper);
       return canvasHost;
    }

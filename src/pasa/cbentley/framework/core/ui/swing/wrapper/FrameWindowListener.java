@@ -10,13 +10,13 @@ import pasa.cbentley.framework.core.ui.src4.ctx.ObjectCUC;
 import pasa.cbentley.framework.core.ui.src4.event.CanvasHostEvent;
 import pasa.cbentley.framework.core.ui.src4.interfaces.ITechEventHost;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 
 public class FrameWindowListener extends ObjectCUC implements WindowListener, WindowFocusListener, IStringable {
 
-   private CanvasHostSwing canvas;
+   private CanvasHostSwingAbstract canvas;
 
-   public FrameWindowListener(CoreUiSwingCtx cuc, CanvasHostSwing canvas) {
+   public FrameWindowListener(CoreUiSwingCtx cuc, CanvasHostSwingAbstract canvas) {
       super(cuc);
       this.canvas = canvas;
    }

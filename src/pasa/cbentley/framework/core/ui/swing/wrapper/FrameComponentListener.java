@@ -7,13 +7,13 @@ import pasa.cbentley.core.src4.logging.Dctx;
 import pasa.cbentley.core.src4.logging.IStringable;
 import pasa.cbentley.framework.core.ui.src4.ctx.ObjectCUC;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 
 public class FrameComponentListener extends ObjectCUC implements ComponentListener, IStringable {
 
-   private CanvasHostSwing canvasHost;
+   private CanvasHostSwingAbstract canvasHost;
 
-   public FrameComponentListener(CoreUiSwingCtx cuc, CanvasHostSwing ac) {
+   public FrameComponentListener(CoreUiSwingCtx cuc, CanvasHostSwingAbstract ac) {
       super(cuc);
       this.canvasHost = ac;
    }

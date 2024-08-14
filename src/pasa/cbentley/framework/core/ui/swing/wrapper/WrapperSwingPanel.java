@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 
 /**
  * A Panel with undefined owner type.
@@ -37,7 +37,7 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
    public void setIcon(String str) {
    }
 
-   public void addCanvas(CanvasHostSwing ac) {
+   public void addCanvas(CanvasHostSwingAbstract ac) {
       Component cc = canvas.getRealCanvas();
       panel.add(cc);
    }

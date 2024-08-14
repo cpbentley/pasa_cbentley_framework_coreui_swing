@@ -11,9 +11,9 @@ import pasa.cbentley.swing.data.Listener;
 public class FileDropListener implements Listener {
 
    protected final CoreUiSwingCtx cuc;
-   protected final CanvasHostSwing canvas;
+   protected final CanvasHostSwingAbstract canvas;
 
-   public FileDropListener(CoreUiSwingCtx cuc, CanvasHostSwing canvas) {
+   public FileDropListener(CoreUiSwingCtx cuc, CanvasHostSwingAbstract canvas) {
       this.cuc = cuc;
       this.canvas = canvas;
    }

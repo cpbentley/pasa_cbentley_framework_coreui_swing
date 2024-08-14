@@ -8,7 +8,7 @@ import pasa.cbentley.framework.core.ui.src4.engine.WrapperAbstract;
 import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
 import pasa.cbentley.framework.core.ui.src4.tech.IBOCanvasHost;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
 
 /**
  * Canvas owner creates {@link WrapperSwingTopFrame}.
@@ -25,10 +25,14 @@ public class WrapperManagerDefaultSwing extends ObjectCUC implements IWrapperMan
    public WrapperManagerDefaultSwing(CoreUiSwingCtx cuic) {
       super(cuic);
       this.cuic = cuic;
+      
+      //#debug
+      toDLog().pCreate("", this, WrapperManagerDefaultSwing.class, "Created@30", LVL_04_FINER, true);
+
    }
 
    public CanvasHostAbstract createCanvasHost(WrapperAbstract wrapper, ByteObject canvasTech) {
-      CanvasSwing canvasHost = new CanvasSwing(cuic, canvasTech);
+      CanvasHostSwing canvasHost = new CanvasHostSwing(cuic, canvasTech);
       canvasHost.setWrapper(wrapper);
       return canvasHost;
    }

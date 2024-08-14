@@ -1,6 +1,5 @@
 package pasa.cbentley.framework.core.ui.swing.engine;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,13 +17,13 @@ public class RealCanvasJComponent extends JComponent implements IStringable {
    /**
     * 
     */
-   private static final long      serialVersionUID = 3629668552412508682L;
+   private static final long       serialVersionUID = 3629668552412508682L;
 
-   private CanvasHostSwing        canvasHost;
+   private CanvasHostSwingAbstract canvasHost;
 
-   protected final CoreUiSwingCtx csc;
+   protected final CoreUiSwingCtx  csc;
 
-   public RealCanvasJComponent(CoreUiSwingCtx csc, CanvasHostSwing canvas) {
+   public RealCanvasJComponent(CoreUiSwingCtx csc, CanvasHostSwingAbstract canvas) {
       this.csc = csc;
       this.canvasHost = canvas;
    }
@@ -68,10 +67,6 @@ public class RealCanvasJComponent extends JComponent implements IStringable {
       return Dctx.toString1Line(this);
    }
 
-   private void toStringPrivate(Dctx dc) {
-
-   }
-
    public void toString1Line(Dctx dc) {
       dc.root1Line(this, RealCanvasJComponent.class);
       toStringPrivate(dc);
@@ -79,6 +74,10 @@ public class RealCanvasJComponent extends JComponent implements IStringable {
 
    public UCtx toStringGetUCtx() {
       return csc.getUC();
+   }
+
+   private void toStringPrivate(Dctx dc) {
+
    }
 
    //#enddebug

@@ -24,11 +24,11 @@ public class RealCanvasAWTCanvas extends Canvas implements IStringable {
     */
    private static final long serialVersionUID = 3629668552412508682L;
 
-   private CanvasHostSwing   bridge;
+   private CanvasHostSwingAbstract   bridge;
 
    private CoreUiSwingCtx    csc;
 
-   public RealCanvasAWTCanvas(CoreUiSwingCtx csc, CanvasHostSwing b) {
+   public RealCanvasAWTCanvas(CoreUiSwingCtx csc, CanvasHostSwingAbstract b) {
       this.csc = csc;
       this.bridge = b;
    }

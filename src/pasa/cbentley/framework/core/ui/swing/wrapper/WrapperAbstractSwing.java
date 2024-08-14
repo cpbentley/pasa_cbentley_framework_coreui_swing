@@ -5,11 +5,11 @@ import pasa.cbentley.framework.core.ui.j2se.engine.WrapperAbstractJ2se;
 import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
 
 /**
- * Handles the wrapping of {@link CanvasHostSwing} in something else.
+ * Handles the wrapping of {@link CanvasHostSwingAbstract} in something else.
  * <br>
  * <br>
  * At this level the wrapper is not aware of the framework lifecycle.
@@ -21,27 +21,31 @@ import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
  */
 public abstract class WrapperAbstractSwing extends WrapperAbstractJ2se {
 
-   protected CanvasHostSwing      canvas;
+   protected CanvasHostSwingAbstract      canvas;
 
    protected final CoreUiSwingCtx cuc;
 
    protected WrapperAbstractSwing(CoreUiSwingCtx cuc) {
       super(cuc);
       this.cuc = cuc;
+      
+      //#debug
+      toDLog().pCreate("", this, WrapperAbstractSwing.class, "Created@33", LVL_04_FINER, true);
+
    }
 
    /**
-    * Put the {@link CanvasHostSwing} into the metal of a real Swing compo.
+    * Put the {@link CanvasHostSwingAbstract} into the metal of a real Swing compo.
     * @param canvasHostSwing
     */
-   protected abstract void addCanvas(CanvasHostSwing canvasHostSwing);
+   protected abstract void addCanvas(CanvasHostSwingAbstract canvasHostSwing);
 
 
    /**
     * null if none was set
     * @return
     */
-   public CanvasHostSwing getCanvasSwing() {
+   public CanvasHostSwingAbstract getCanvasSwing() {
       return canvas;
    }
 
@@ -79,17 +83,17 @@ public abstract class WrapperAbstractSwing extends WrapperAbstractJ2se {
     * <br><br>
     * The {@link SwingManager} when requested to create a new canvas does the following
     * <li> Asks its {@link IWrapperManager} which wrapper to create.
-    * <li> Creates a {@link CanvasHostSwing} with requested capabilities (OpenGL, Active Rendering etc)
-    * <li> Link the Wrapper with the {@link CanvasHostSwing}
-    * <li> Link the {@link CanvasHostSwing} with the wrapper.
+    * <li> Creates a {@link CanvasHostSwingAbstract} with requested capabilities (OpenGL, Active Rendering etc)
+    * <li> Link the Wrapper with the {@link CanvasHostSwingAbstract}
+    * <li> Link the {@link CanvasHostSwingAbstract} with the wrapper.
     * 
     * The method is responsible to "add" the Canvas to the wrapper structure.
     * Defines the kernel and everything
     * @param can {@link CanvasHostAbstract}
     */
    public void setCanvasHost(CanvasHostAbstract can) {
-      if (can instanceof CanvasHostSwing) {
-         canvas = (CanvasHostSwing) can;
+      if (can instanceof CanvasHostSwingAbstract) {
+         canvas = (CanvasHostSwingAbstract) can;
          addCanvas(canvas);
       } else {
          throw new IllegalArgumentException();

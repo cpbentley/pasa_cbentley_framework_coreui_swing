@@ -7,7 +7,7 @@ import pasa.cbentley.core.src4.stator.IStatorFactory;
 import pasa.cbentley.core.src4.stator.IStatorable;
 import pasa.cbentley.core.src4.stator.ITechStator;
 import pasa.cbentley.core.src4.stator.StatorReader;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.framework.core.ui.swing.wrapper.WrapperSwingTopFrame;
 
 public class StatorFactoryCoreUiSwing implements IStatorFactory, ITechStatorableCoreUiSwing {
@@ -21,7 +21,7 @@ public class StatorFactoryCoreUiSwing implements IStatorFactory, ITechStatorable
    public Object[] createArray(int classID, int size) {
       switch (classID) {
          case CLASSID_1_CANVASSWING:
-            return new CanvasSwing[size];
+            return new CanvasHostSwing[size];
          case CLASSID_2_WRAPPER_SWING_TOP_FRAME:
             return new WrapperSwingTopFrame[size];
 
@@ -32,7 +32,7 @@ public class StatorFactoryCoreUiSwing implements IStatorFactory, ITechStatorable
    }
 
    public boolean isSupported(IStatorable statorable) {
-      if (statorable.getClass() == CanvasSwing.class) {
+      if (statorable.getClass() == CanvasHostSwing.class) {
          return true;
       } else if (statorable.getClass() == WrapperSwingTopFrame.class) {
          return true;
@@ -61,7 +61,7 @@ public class StatorFactoryCoreUiSwing implements IStatorFactory, ITechStatorable
       StatorReaderBO srbo = (StatorReaderBO) reader;
       srbo.checkInt(ITechStator.MAGIC_WORD_OBJECT_PARAM);
       ByteObject boCanvasHost = srbo.readByteObject();
-      return new CanvasSwing(cuc, boCanvasHost);
+      return new CanvasHostSwing(cuc, boCanvasHost);
    }
 
 }

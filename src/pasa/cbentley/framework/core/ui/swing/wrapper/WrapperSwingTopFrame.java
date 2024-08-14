@@ -21,7 +21,7 @@ import pasa.cbentley.core.src4.stator.StatorWriter;
 import pasa.cbentley.framework.core.draw.swing.engine.GraphicsSwing;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
 import pasa.cbentley.framework.core.ui.swing.ctx.ITechStatorableCoreUiSwing;
-import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
 import pasa.cbentley.swing.window.CBentleyFrame;
 
@@ -32,7 +32,7 @@ import pasa.cbentley.swing.window.CBentleyFrame;
  * Controls the creation of the {@link JFrame} and the {@link BufferStrategy} if any is required.
  * <br>
  * 
- * When a repaint call is made, {@link CanvasHostSwing#icRepaint()}
+ * When a repaint call is made, {@link CanvasHostSwingAbstract#icRepaint()}
  * 
  * Does not manage application level concerns.
  * 
@@ -61,6 +61,10 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       super(cuc);
       cucSwing = cuc;
       frame = new CBentleyFrame(cuc.getSwingCtx());
+
+      //#debug
+      toDLog().pCreate("", this, WrapperSwingTopFrame.class, "Created@20", LVL_04_FINER, true);
+
    }
 
    public int getStatorableClassID() {
@@ -77,7 +81,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
    /**
     * Sets the Canvas to the frame
     */
-   public void addCanvas(CanvasHostSwing ac) {
+   public void addCanvas(CanvasHostSwingAbstract ac) {
       Component component = canvas.getRealCanvas();
       frame.add(component);
       frameListener = new FrameComponentListener(cuc, ac);
@@ -195,12 +199,12 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       //#debug
       toDLog().pInit("getDrawGraphics", new Graphics2DStringable(cucSwing.getSwingCtx(), myGraphics), WrapperSwingTopFrame.class, "getGraphics", LVL_05_FINE, false);
 
-      if(gx == null) {
+      if (gx == null) {
          gx = new GraphicsSwing(cuc.getCoreDrawSwingCtx(), myGraphics);
       } else {
          gx.setGraphics2D(myGraphics);
       }
-      
+
       //#debug
       gx.toStringSetNameDebug("WrapperSwingTopFrame getGraphics");
       return gx;
@@ -366,16 +370,20 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       toStringPrivate(dc);
       super.toString(dc.sup());
       dc.nl();
-      dc.appendVarWithSpace("isDoubleBuffered", frame.isDoubleBuffered());
-      dc.appendVarWithSpace("isAlwaysOnTop", frame.isAlwaysOnTop());
+      if (frame != null) {
+         dc.appendVarWithSpace("isDoubleBuffered", frame.isDoubleBuffered());
+         dc.appendVarWithSpace("isAlwaysOnTop", frame.isAlwaysOnTop());
+      }
       dc.nlLvl(frame, CBentleyFrame.class);
       dc.nlLvl(frameListener, FrameComponentListener.class);
    }
 
    private void toStringPrivate(Dctx dc) {
-      dc.appendVarWithSpace("Title", frame.getTitle());
-      dc.appendVarWithSpace("Position", frame.getX() + "," + frame.getY());
-      dc.appendVarWithSpace("Size", frame.getWidth() + "," + frame.getHeight());
+      if (frame != null) {
+         dc.appendVarWithSpace("Title", frame.getTitle());
+         dc.appendVarWithSpace("Position", frame.getX() + "," + frame.getY());
+         dc.appendVarWithSpace("Size", frame.getWidth() + "," + frame.getHeight());
+      }
    }
 
    public void toString1Line(Dctx dc) {
