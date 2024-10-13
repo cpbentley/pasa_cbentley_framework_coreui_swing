@@ -7,19 +7,17 @@ import pasa.cbentley.core.src4.ctx.UCtx;
 import pasa.cbentley.framework.core.ui.src4.engine.KeyMapAbstract;
 import pasa.cbentley.framework.core.ui.src4.tech.ITechCodes;
 
-public class KeyMapSwing extends KeyMapAbstract {
+/**
+ * 
+ * @author Charles Bentley
+ *
+ */
+public class KeyMapSwingPhone extends KeyMapAbstract {
 
-   public KeyMapSwing(UCtx uc) {
+   public KeyMapSwingPhone(UCtx uc) {
       super(uc);
    }
 
-   public boolean isMajOn() {
-      return Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
-   }
-
-   public void setMajOn(boolean b) {
-      Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, b);
-   }
 
    public int getKeyMappedToFramework(int jKey) {
       switch (jKey) {

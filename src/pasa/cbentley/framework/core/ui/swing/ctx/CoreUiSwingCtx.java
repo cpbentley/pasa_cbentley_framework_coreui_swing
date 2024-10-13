@@ -14,14 +14,15 @@ import pasa.cbentley.framework.core.ui.j2se.engine.HostServiceUiJ2se;
 import pasa.cbentley.framework.core.ui.src4.ctx.IBOCtxSettingsCoreUi;
 import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.core.ui.src4.engine.KeyMapAbstract;
-import pasa.cbentley.framework.core.ui.src4.engine.WrapperAbstract;
 import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
+import pasa.cbentley.framework.core.ui.src4.wrapper.WrapperAbstract;
 import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwing;
 import pasa.cbentley.framework.core.ui.swing.engine.HostDataUiSwing;
 import pasa.cbentley.framework.core.ui.swing.engine.HostFeatureUiSwing;
 import pasa.cbentley.framework.core.ui.swing.engine.HostServiceUiSwing;
-import pasa.cbentley.framework.core.ui.swing.engine.KeyMapSwing;
+import pasa.cbentley.framework.core.ui.swing.engine.KeyMapSwingPhone;
+import pasa.cbentley.framework.core.ui.swing.engine.KeyMapSwingRegular;
 import pasa.cbentley.framework.core.ui.swing.wrapper.WrapperManagerDefaultSwing;
 import pasa.cbentley.swing.ctx.SwingCtx;
 
@@ -39,7 +40,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
 
    private HostServiceUiSwing       hostServiceUiSwing;
 
-   private KeyMapSwing              keyMap;
+   private KeyMapAbstract              keyMap;
 
    protected final SwingCtx         sc;
 
@@ -60,7 +61,14 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       this.cdc = cdc;
       this.sc = sc;
       this.cio5c = cio5c;
-      keyMap = new KeyMapSwing(uc);
+      
+      //which mapping to use ?
+      int value = configUI.getKeyMappingTypeJ2se();
+      if(value == 0) {
+         keyMap = new KeyMapSwingRegular(uc);
+      } else {
+         keyMap = new KeyMapSwingPhone(uc);
+      }
 
       hostDataUISwing = new HostDataUiSwing(this);
       hostFeatureUiSwing = new HostFeatureUiSwing(this);
@@ -70,7 +78,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       }
 
       //#debug
-      toDLog().pCreate("", this, CoreUiSwingCtx.class, "Created@73", LVL_04_FINER, true);
+      toDLog().pCreate("", this, CoreUiSwingCtx.class, "Created@81", LVL_05_FINE, true);
 
    }
 
@@ -96,12 +104,13 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       }
    }
 
-   public CanvasHostAbstract createCanvasHost(WrapperAbstract wrapper, ByteObject canvasTech) {
-      CanvasHostAbstract cha = getWrapperManager().createCanvasHost(wrapper, canvasTech);
+   public CanvasHostAbstract createCanvasHost(WrapperAbstract wrapper, ByteObject boCanvasHost) {
+      IWrapperManager wrapperManager = getWrapperManager();
+      CanvasHostAbstract cha = wrapperManager.createCanvasHost(wrapper, boCanvasHost);
       if (cha != null) {
          return cha;
       }
-      CanvasHostSwing canvasHost = new CanvasHostSwing(this, canvasTech);
+      CanvasHostSwing canvasHost = new CanvasHostSwing(this, boCanvasHost);
       canvasHost.setWrapper(wrapper);
       return canvasHost;
    }

@@ -21,14 +21,14 @@ import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
  */
 public abstract class WrapperAbstractSwing extends WrapperAbstractJ2se {
 
-   protected CanvasHostSwingAbstract      canvas;
+   protected CanvasHostSwingAbstract canvas;
 
-   protected final CoreUiSwingCtx cuc;
+   protected final CoreUiSwingCtx    cuc;
 
    protected WrapperAbstractSwing(CoreUiSwingCtx cuc) {
       super(cuc);
       this.cuc = cuc;
-      
+
       //#debug
       toDLog().pCreate("", this, WrapperAbstractSwing.class, "Created@33", LVL_04_FINER, true);
 
@@ -39,7 +39,6 @@ public abstract class WrapperAbstractSwing extends WrapperAbstractJ2se {
     * @param canvasHostSwing
     */
    protected abstract void addCanvas(CanvasHostSwingAbstract canvasHostSwing);
-
 
    /**
     * null if none was set
@@ -70,7 +69,6 @@ public abstract class WrapperAbstractSwing extends WrapperAbstractJ2se {
    }
 
    public void repaint() {
-      // TODO Auto-generated method stub
 
    }
 

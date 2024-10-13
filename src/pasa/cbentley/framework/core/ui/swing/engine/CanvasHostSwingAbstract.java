@@ -30,11 +30,11 @@ import pasa.cbentley.core.src4.stator.StatorWriter;
 import pasa.cbentley.framework.core.draw.swing.engine.GraphicsSwing;
 import pasa.cbentley.framework.core.ui.j2se.engine.CanvasHostJ2se;
 import pasa.cbentley.framework.core.ui.src4.ctx.IBOCtxSettingsCoreUi;
-import pasa.cbentley.framework.core.ui.src4.engine.WrapperAbstract;
 import pasa.cbentley.framework.core.ui.src4.interfaces.ICanvasHost;
 import pasa.cbentley.framework.core.ui.src4.tech.IBOCanvasHost;
 import pasa.cbentley.framework.core.ui.src4.tech.ITechCodes;
 import pasa.cbentley.framework.core.ui.src4.utils.KeyRepeatBlock;
+import pasa.cbentley.framework.core.ui.src4.wrapper.WrapperAbstract;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
 import pasa.cbentley.framework.core.ui.swing.wrapper.WrapperAbstractSwing;
 import pasa.cbentley.framework.coredraw.src4.interfaces.IGraphics;
@@ -98,8 +98,8 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
     * @param w
     * @param h
     */
-   public CanvasHostSwingAbstract(CoreUiSwingCtx cuc, ByteObject tech) {
-      super(cuc, tech);
+   public CanvasHostSwingAbstract(CoreUiSwingCtx cuc, ByteObject boCanvasHost) {
+      super(cuc, boCanvasHost);
       this.scc = cuc;
 
       keyreapeat = new KeyRepeatBlock(cuc);
@@ -107,15 +107,15 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
 
       //#debug
       graphicsSwing.toStringSetNameDebug("Main");
-      
-      boolean isOpenGL = tech != null ? tech.hasFlag(TCANVAS_OFFSET_01_FLAG, TCANVAS_FLAG_3_OPEN_GL) : false;
+
+      boolean isOpenGL = boCanvasHost != null ? boCanvasHost.hasFlag(CANVAS_HOST_OFFSET_01_FLAG, CANVAS_HOST_FLAG_3_OPEN_GL) : false;
 
       //could also be an AWT Canvas
       if (isOpenGL) {
          //         CanvasComp cc = new CanvasComp(this);
          //         c = new GLG2DCanvas(cc);
       } else {
-         if (tech.hasFlag(TCANVAS_OFFSET_01_FLAG, TCANVAS_FLAG_6_AWT_CANVAS)) {
+         if (boCanvasHost.hasFlag(CANVAS_HOST_OFFSET_01_FLAG, CANVAS_HOST_FLAG_6_AWT_CANVAS)) {
             realComponent = new RealCanvasAWTCanvas(cuc, this);
          } else {
             realComponent = new RealCanvasJComponent(cuc, this);
@@ -234,7 +234,7 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
 
       String message = text + " KeyChar=" + c + " KeyCode=" + j2seKeyCode + "-> [" + fcode + "] " + modss + " " + loc;
       //#debug
-      toDLog().pBridge1(message, this, CanvasHostSwingAbstract.class, method);
+      toDLog().pBridge(message, this, CanvasHostSwingAbstract.class, "debugKeyEvent@237", LVL_04_FINER, true);
    }
 
    /**
@@ -298,7 +298,6 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
       return realComponent;
    }
 
-   @Override
    public boolean isShown() {
       return realComponent.isVisible();
    }
@@ -309,22 +308,22 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
     * <b>Notes</b>:
     * <li>Also, as long as the key is pressed, it generates an event 
     * <li>Swing generates a new event when A press B press A released, Swing generated a Pressed event.
-    * <br>
-    * <br>
     * 
     */
    public void keyPressed(KeyEvent ev) {
-      //#debug
-      toDLog().pBridge("", ev, CanvasHostSwingAbstract.class, "keyPressed@326", LVL_05_FINE, true);
 
       //THIS PREVENTS alt LOSE FOCUS
       //      if(ev.getKeyCode() == KeyEvent.VK_ALT) {
       //         ev.consume();
       //      }
       int j2seKeyCode = ev.getKeyCode();
+      int finalCode = scc.getKeyMap().getKeyMappedToFramework(j2seKeyCode);
 
       //pinch key emulates the pinching while moving the mouse
-      int finalCode = scc.getKeyMap().getKeyMappedToFramework(j2seKeyCode);
+
+      //#debug
+      toDLog().pBridge(j2seKeyCode + " is mapped to " + finalCode, ev, CanvasHostSwingAbstract.class, "keyPressed@326", LVL_05_FINE, true);
+
       if (keyreapeat.isKeyRepeat(finalCode)) {
          return;
       }
@@ -340,11 +339,13 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
     * Method from the KeyListener interface.
     */
    public void keyReleased(KeyEvent ev) {
-      //#debug
-      toDLog().pBridge("", ev, CanvasHostSwingAbstract.class, "keyReleased@351", LVL_05_FINE, true);
 
       int j2seKeyCode = ev.getKeyCode();
       int finalCode = scc.getKeyMap().getKeyMappedToFramework(j2seKeyCode);
+
+      //#debug
+      toDLog().pBridge(j2seKeyCode + " is mapped to " + finalCode, ev, CanvasHostSwingAbstract.class, "keyReleased@351", LVL_05_FINE, true);
+
       keyreapeat.keyReleaseRepeat(finalCode);
       debugKeyEvent(ev, "keyReleased");
       keyReleasedBridge(finalCode);
@@ -491,9 +492,16 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
 
    public void stateReadFrom(StatorReader state) {
       super.stateReadFrom(state);
-      
+
       //#debug
       toDLog().pStator("Reading", this, CanvasHostSwingAbstract.class, "stateReadFrom@503", LVL_04_FINER, true);
+   }
+
+   public void stateWriteTo(StatorWriter state) {
+      super.stateWriteTo(state);
+
+      //#debug
+      toDLog().pStator("Writing", this, CanvasHostSwingAbstract.class, "stateWriteTo@505", LVL_04_FINER, true);
    }
 
    //   public void icServiceRepaint() {
@@ -534,13 +542,6 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
    //         }
    //      }
    //   }
-
-   public void stateWriteTo(StatorWriter state) {
-      super.stateWriteTo(state);
-      
-      //#debug
-      toDLog().pStator("Writing", this, CanvasHostSwingAbstract.class, "stateWriteTo@548", LVL_04_FINER, true);
-   }
 
    //#mdebug
    public void toString(Dctx dc) {

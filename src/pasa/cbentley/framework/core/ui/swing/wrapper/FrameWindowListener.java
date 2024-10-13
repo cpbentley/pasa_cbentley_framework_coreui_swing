@@ -53,7 +53,7 @@ public class FrameWindowListener extends ObjectCUC implements WindowListener, Wi
       //#debug
       toDLog().pFlow("", this, FrameWindowListener.class, "windowClosing", LVL_03_FINEST, true);
 
-      CanvasHostEvent ge = new CanvasHostEvent(cuc, ITechEventHost.ACTION_1_CLOSE, canvas);
+      CanvasHostEvent ge = new CanvasHostEvent(cuc, ITechEventHost.ACTION_01_CLOSE, canvas);
       canvas.eventBridge(ge);
    }
 

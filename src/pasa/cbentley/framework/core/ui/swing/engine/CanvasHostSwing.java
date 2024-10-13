@@ -30,10 +30,14 @@ public class CanvasHostSwing extends CanvasHostSwingAbstract {
     * Init size?
     * @param dd
     * @param container
-    * @param tech
+    * @param boCanvasHost
     */
-   public CanvasHostSwing(CoreUiSwingCtx scc, ByteObject tech) {
-      super(scc, tech);
+   public CanvasHostSwing(CoreUiSwingCtx scc, ByteObject boCanvasHost) {
+      super(scc, boCanvasHost);
+      
+      //#debug
+      toDLog().pCreate("", this, CanvasHostSwing.class, "Created@39", LVL_04_FINER, true);
+
 
    }
 

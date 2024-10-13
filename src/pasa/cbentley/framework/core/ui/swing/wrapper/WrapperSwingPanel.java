@@ -5,6 +5,7 @@ import java.awt.Component;
 import javax.swing.JPanel;
 
 import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
+import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
 import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
 
@@ -25,8 +26,8 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
    /**
     * A Panel Wrapper must have a non null parent
     */
-   public WrapperSwingPanel(CoreUiSwingCtx scc) {
-      super(scc);
+   public WrapperSwingPanel(CoreUiSwingCtx cuc) {
+      super(cuc);
       panel = new JPanel();
    }
 
@@ -97,9 +98,8 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
    }
 
    public void setDefaultStartPosition() {
-      if(parent != null) {
-         parent.setDefaultStartPosition();
-      }
+      // TODO Auto-generated method stub
+
    }
 
 }

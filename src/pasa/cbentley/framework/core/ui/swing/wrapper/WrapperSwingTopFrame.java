@@ -2,7 +2,6 @@ package pasa.cbentley.framework.core.ui.swing.wrapper;
 
 import java.awt.AWTException;
 import java.awt.BufferCapabilities;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Graphics2D;
@@ -13,12 +12,16 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-import pasa.cbentley.core.src4.io.BADataOS;
+import pasa.cbentley.byteobjects.src4.core.ByteObject;
+import pasa.cbentley.byteobjects.src4.stator.StatorReaderBO;
+import pasa.cbentley.byteobjects.src4.stator.StatorWriterBO;
 import pasa.cbentley.core.src4.logging.Dctx;
-import pasa.cbentley.core.src4.logging.ITechDev;
 import pasa.cbentley.core.src4.stator.StatorReader;
 import pasa.cbentley.core.src4.stator.StatorWriter;
 import pasa.cbentley.framework.core.draw.swing.engine.GraphicsSwing;
+import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
+import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
+import pasa.cbentley.framework.core.ui.src4.tech.IBOFramePos;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
 import pasa.cbentley.framework.core.ui.swing.ctx.ITechStatorableCoreUiSwing;
 import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
@@ -43,15 +46,17 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
 
    protected BufferStrategy       bufferStrategy;
 
+   protected final CoreUiSwingCtx cucSwing;
+
    protected CBentleyFrame        frame;
 
    private FrameComponentListener frameListener;
 
+   private GraphicsSwing          gx;
+
    private boolean                isVSync = true;
 
    private Graphics2D             myGraphics;
-
-   protected final CoreUiSwingCtx cucSwing;
 
    /**
     * By default the frame will have the size and position on the center
@@ -63,19 +68,8 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       frame = new CBentleyFrame(cuc.getSwingCtx());
 
       //#debug
-      toDLog().pCreate("", this, WrapperSwingTopFrame.class, "Created@20", LVL_04_FINER, true);
+      toDLog().pCreate("", this, WrapperSwingTopFrame.class, "Created@66", LVL_04_FINER, true);
 
-   }
-
-   public int getStatorableClassID() {
-      return ITechStatorableCoreUiSwing.CLASSID_2_WRAPPER_SWING_TOP_FRAME;
-   }
-
-   public void onExit() {
-      //#debug
-      toDLog().pFlow("", frame, WrapperSwingTopFrame.class, "onExit@72", LVL_05_FINE, DEV_4_THREAD);
-      frame.setVisible(false);
-      frame.dispose();
    }
 
    /**
@@ -87,28 +81,6 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       frameListener = new FrameComponentListener(cuc, ac);
       frame.addComponentListener(frameListener);
 
-   }
-
-   public void stateReadFrom(StatorReader state) {
-      super.stateReadFrom(state);
-      int x = state.readInt();
-      int y = state.readInt();
-
-      //#debug
-      toDLog().pStator("Reading x=" + x + " y=" + y, this, WrapperSwingTopFrame.class, "stateReadFrom", LVL_05_FINE, true);
-
-      this.setPosition(x, y);
-   }
-
-   public void stateWriteTo(StatorWriter state) {
-      super.stateWriteTo(state);
-      int x = frame.getX();
-      int y = frame.getY();
-      BADataOS writer = state.getWriter();
-      //#debug
-      toDLog().pStator("Writing x=" + x + " y=" + y, this, WrapperSwingTopFrame.class, "stateWriteTo", LVL_05_FINE, true);
-      writer.writeInt(x);
-      writer.writeInt(y);
    }
 
    public void canvasHide() {
@@ -147,6 +119,36 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
     */
    public CBentleyFrame getFrame() {
       return frame;
+   }
+
+   /**
+    * Method for those wrappers that just use the default frame positions.
+    * 
+    * This is only called by host implementations that have movable frames
+    * 
+    * @param state
+    */
+   protected ByteObject getFramePos() {
+      //sets current pos. This is the absolute position
+
+      //delegate to the wrapper how to set the ui state
+      ByteObject framePos = cuc.createBOFrameDefault();
+      CanvasHostAbstract ch = this.canvas;
+
+      //wrapper size
+
+      framePos.set2(IBOFramePos.FPOS_OFFSET_02_X2, frame.getX());
+      framePos.set2(IBOFramePos.FPOS_OFFSET_03_Y2, frame.getY());
+      framePos.set2(IBOFramePos.FPOS_OFFSET_04_W2, frame.getWidth());
+      framePos.set2(IBOFramePos.FPOS_OFFSET_05_H2, frame.getHeight());
+
+      boolean isFullScreen = ch.isCanvasFeatureEnabled(SUP_ID_27_FULLSCREEN);
+      framePos.setFlag(IBOFramePos.FPOS_OFFSET_01_FLAG, IBOFramePos.FPOS_FLAG_1_FULLSCREEN, isFullScreen);
+
+      boolean isAlwaysOnTop = ch.isCanvasFeatureEnabled(SUP_ID_28_ALWAYS_ON_TOP);
+      framePos.setFlag(IBOFramePos.FPOS_OFFSET_01_FLAG, IBOFramePos.FPOS_FLAG_5_ALWAYS_ON_TOP, isAlwaysOnTop);
+
+      return framePos;
    }
 
    /**
@@ -210,7 +212,9 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       return gx;
    }
 
-   private GraphicsSwing gx;
+   public int getStatorableClassID() {
+      return ITechStatorableCoreUiSwing.CLASSID_2_WRAPPER_SWING_TOP_FRAME;
+   }
 
    public String getTitle() {
       return frame.getTitle();
@@ -258,6 +262,13 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       } else if (feature == SUP_ID_31_ACTIVATE_FRONT) {
       }
       return false;
+   }
+
+   public void onExit() {
+      //#debug
+      toDLog().pFlow("", frame, WrapperSwingTopFrame.class, "onExit@72", LVL_05_FINE, DEV_4_THREAD);
+      frame.setVisible(false);
+      frame.dispose();
    }
 
    public boolean setAlwaysOnTop(boolean mode) {
@@ -364,6 +375,53 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       return true;
    }
 
+   public void stateReadFrom(StatorReader state) {
+      super.stateReadFrom(state);
+
+      ByteObject fp = ((StatorReaderBO) state).readByteObject();
+
+      int x = fp.get2Signed(IBOFramePos.FPOS_OFFSET_02_X2);
+      int y = fp.get2Signed(IBOFramePos.FPOS_OFFSET_03_Y2);
+
+      //#debug
+      toDLog().pStator("Reading x=" + x + "\t y=" + y + "\t", this, WrapperSwingTopFrame.class, "stateReadFrom@386", LVL_05_FINE, true);
+
+      //this.setPosition(x, y);
+
+      int w = fp.get2Signed(IBOFramePos.FPOS_OFFSET_04_W2);
+      int h = fp.get2Signed(IBOFramePos.FPOS_OFFSET_05_H2);
+
+      //#debug
+      toDLog().pStator("Reading w=" + w + "\t h=" + h + "\t", this, WrapperSwingTopFrame.class, "stateReadFrom@365", LVL_05_FINE, true);
+
+      //this.setSize(w, h);
+
+      setAlwaysOnTop(fp.hasFlag(IBOFramePos.FPOS_OFFSET_01_FLAG, IBOFramePos.FPOS_FLAG_5_ALWAYS_ON_TOP));
+   }
+
+   public void stateWriteTo(StatorWriter state) {
+      super.stateWriteTo(state);
+
+      ByteObject fp = getFramePos();
+      ((StatorWriterBO) state).dataWriteByteObject(fp);
+      
+      int x = fp.get2Signed(IBOFramePos.FPOS_OFFSET_02_X2);
+      int y = fp.get2Signed(IBOFramePos.FPOS_OFFSET_03_Y2);
+
+      //#debug
+      toDLog().pStator("Writing x=" + x + "\t y=" + y + "\t", this, WrapperSwingTopFrame.class, "stateWriteTo@386", LVL_05_FINE, true);
+
+      //this.setPosition(x, y);
+
+      int w = fp.get2Signed(IBOFramePos.FPOS_OFFSET_04_W2);
+      int h = fp.get2Signed(IBOFramePos.FPOS_OFFSET_05_H2);
+
+      //#debug
+      toDLog().pStator("Writing w=" + w + "\t h=" + h + "\t", this, WrapperSwingTopFrame.class, "stateWriteTo@419", LVL_05_FINE, true);
+
+   
+   }
+
    //#mdebug
    public void toString(Dctx dc) {
       dc.root(this, WrapperSwingTopFrame.class, 350);
@@ -378,6 +436,13 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
       dc.nlLvl(frameListener, FrameComponentListener.class);
    }
 
+   public void toString1Line(Dctx dc) {
+      dc.root1Line(this, WrapperSwingTopFrame.class);
+      toStringPrivate(dc);
+      super.toString1Line(dc.sup1Line());
+   }
+   //#enddebug
+
    private void toStringPrivate(Dctx dc) {
       if (frame != null) {
          dc.appendVarWithSpace("Title", frame.getTitle());
@@ -385,12 +450,5 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
          dc.appendVarWithSpace("Size", frame.getWidth() + "," + frame.getHeight());
       }
    }
-
-   public void toString1Line(Dctx dc) {
-      dc.root1Line(this, WrapperSwingTopFrame.class);
-      toStringPrivate(dc);
-      super.toString1Line(dc.sup1Line());
-   }
-   //#enddebug
 
 }
