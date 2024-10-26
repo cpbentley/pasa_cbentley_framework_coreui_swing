@@ -63,7 +63,7 @@ public class CoreUiSwingCtx extends CoreUiJ2seCtx {
       this.cio5c = cio5c;
       
       //which mapping to use ?
-      int value = configUI.getKeyMappingTypeJ2se();
+      int value = this.getConfigUIJ2se().getKeyMappingTypeJ2se();
       if(value == 0) {
          keyMap = new KeyMapSwingRegular(uc);
       } else {

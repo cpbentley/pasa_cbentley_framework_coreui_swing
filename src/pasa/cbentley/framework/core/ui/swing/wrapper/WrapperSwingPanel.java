@@ -1,9 +1,11 @@
 package pasa.cbentley.framework.core.ui.swing.wrapper;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 
 import javax.swing.JPanel;
 
+import pasa.cbentley.core.src4.logging.Dctx;
 import pasa.cbentley.framework.core.ui.src4.engine.CanvasHostAbstract;
 import pasa.cbentley.framework.core.ui.src4.interfaces.IWrapperManager;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
@@ -29,6 +31,7 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
    public WrapperSwingPanel(CoreUiSwingCtx cuc) {
       super(cuc);
       panel = new JPanel();
+      panel.setLayout(new BorderLayout());
    }
 
    public boolean isContained() {
@@ -39,8 +42,8 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
    }
 
    public void addCanvas(CanvasHostSwingAbstract ac) {
-      Component cc = canvas.getRealCanvas();
-      panel.add(cc);
+      Component cc = canvas.getComponentOfCanvas();
+      panel.add(cc, BorderLayout.CENTER);
    }
 
    public void setFullScreenMode(boolean mode) {
@@ -65,7 +68,6 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
    }
 
    public void setPosition(int x, int y) {
-      //TODO what if we want to move tab in a different tab!
       cuc.getWrapperManager().setPosition(this, x, y);
    }
 
@@ -88,18 +90,35 @@ public class WrapperSwingPanel extends WrapperAbstractSwing {
    }
 
    public void canvasShow() {
-      // TODO Auto-generated method stub
-
+      
    }
 
    public void canvasHide() {
-      // TODO Auto-generated method stub
 
    }
 
    public void setDefaultStartPosition() {
-      // TODO Auto-generated method stub
 
    }
+   
+   //#mdebug
+   public void toString(Dctx dc) {
+      dc.root(this, WrapperSwingPanel.class, toStringGetLine(100));
+      toStringPrivate(dc);
+      super.toString(dc.sup());
+   }
+
+   public void toString1Line(Dctx dc) {
+      dc.root1Line(this, WrapperSwingPanel.class, toStringGetLine(100));
+      toStringPrivate(dc);
+      super.toString1Line(dc.sup1Line());
+   }
+
+   private void toStringPrivate(Dctx dc) {
+      
+   }
+   //#enddebug
+   
+
 
 }

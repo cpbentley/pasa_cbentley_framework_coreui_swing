@@ -30,6 +30,7 @@ import pasa.cbentley.core.src4.stator.StatorWriter;
 import pasa.cbentley.framework.core.draw.swing.engine.GraphicsSwing;
 import pasa.cbentley.framework.core.ui.j2se.engine.CanvasHostJ2se;
 import pasa.cbentley.framework.core.ui.src4.ctx.IBOCtxSettingsCoreUi;
+import pasa.cbentley.framework.core.ui.src4.input.InputState;
 import pasa.cbentley.framework.core.ui.src4.interfaces.ICanvasHost;
 import pasa.cbentley.framework.core.ui.src4.tech.IBOCanvasHost;
 import pasa.cbentley.framework.core.ui.src4.tech.ITechCodes;
@@ -91,6 +92,8 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
    protected final CoreUiSwingCtx scc;
 
    protected WrapperAbstractSwing wrapperSwing;
+
+   private boolean isStopped;
 
    /**
     * 
@@ -294,7 +297,7 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
       return "J2SECode[" + j2seKeyCode + " " + KeyEvent.getKeyText(j2seKeyCode) + "] translates to J2ME[" + j2meCode + "]";
    }
 
-   public Component getRealCanvas() {
+   public Component getComponentOfCanvas() {
       return realComponent;
    }
 
@@ -321,13 +324,18 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
 
       //pinch key emulates the pinching while moving the mouse
 
-      //#debug
-      toDLog().pBridge(j2seKeyCode + " is mapped to " + finalCode, ev, CanvasHostSwingAbstract.class, "keyPressed@326", LVL_05_FINE, true);
-
+     
       if (keyreapeat.isKeyRepeat(finalCode)) {
+         //#debug
+         toDLog().pBridge("Repeat Event of a key " + j2seKeyCode + ". It is Canceled!", keyreapeat, CanvasHostSwingAbstract.class, "keyPressed@"+toStringGetLine(333), LVL_05_FINE, true);
          return;
       }
+      
+      //#debug
+      toDLog().pBridge("J2se code " + j2seKeyCode + " is mapped to " + finalCode + " Bentley code", ev, CanvasHostSwingAbstract.class, "keyPressed@"+toStringGetLine(333), LVL_05_FINE, true);
+
       simulationKeys(finalCode);
+      
       //#debug
       debugKeyEvent(ev, "keyPressed");
 
@@ -351,15 +359,16 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
       keyReleasedBridge(finalCode);
    }
 
-   @Override
+   /**
+    * Typed events are handled by {@link InputState}
+    */
    public void keyTyped(KeyEvent arg0) {
-      // TODO Auto-generated method stub
 
    }
-
-   @Override
+   /**
+    * Mouse Clicked events are handled by {@link InputState}
+    */
    public void mouseClicked(MouseEvent arg0) {
-      // TODO Auto-generated method stub
 
    }
 
@@ -444,6 +453,10 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
       mouseWheeledBridge(e.getScrollAmount(), e.getWheelRotation());
    }
 
+   public void setStopped() {
+      isStopped = true;
+      canvasAppli = null;
+   }
    /**
     * Called by the Real compo.
     */
@@ -455,10 +468,14 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
 
       if (canvasAppli == null) {
          //System.out.println("Null Current Displayable. Nothing to draw");
+         String message = "Nothing to Draw";
+         if(isStopped) {
+            message = "Application is Stopped";
+         }
          g.setColor(Color.BLACK);
          g.fillRect(0, 0, w, h);
          g.setColor(Color.LIGHT_GRAY);
-         g.drawString("Nothing to Draw", 15, 35);
+         g.drawString(message, 15, 35);
 
       } else {
          graphicsSwing.setGraphics2D(g);
@@ -473,7 +490,7 @@ public abstract class CanvasHostSwingAbstract extends CanvasHostJ2se implements 
     */
    public void paint(IGraphics g) {
       // Setup the graphics object as per the spec.
-      g.translate(-g.getTranslateX(), -g.getTranslateY());
+      g.setTranslate(-g.getTranslateX(), -g.getTranslateY());
       g.setClip(0, 0, getICWidth(), getICHeight());
       g.setColor(0xff000000); // black
       g.setFont(scc.getFontFactory().getDefaultFont());

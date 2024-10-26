@@ -76,7 +76,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
     * Sets the Canvas to the frame
     */
    public void addCanvas(CanvasHostSwingAbstract ac) {
-      Component component = canvas.getRealCanvas();
+      Component component = canvas.getComponentOfCanvas();
       frame.add(component);
       frameListener = new FrameComponentListener(cuc, ac);
       frame.addComponentListener(frameListener);
@@ -345,7 +345,7 @@ public class WrapperSwingTopFrame extends WrapperAbstractSwing {
 
    public void setPosition(int x, int y) {
       //#debug
-      toDLog().pBridge1("x=" + x + ", y=" + y, this, WrapperSwingTopFrame.class, "setPosition");
+      toDLog().pBridge1("x=" + x + ", y=" + y, this, WrapperSwingTopFrame.class, "setPosition@348");
       frame.setLocation(x, y);
    }
 

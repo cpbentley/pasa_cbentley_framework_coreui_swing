@@ -7,7 +7,7 @@ import java.awt.event.WindowListener;
 import pasa.cbentley.core.src4.logging.Dctx;
 import pasa.cbentley.core.src4.logging.IStringable;
 import pasa.cbentley.framework.core.ui.src4.ctx.ObjectCUC;
-import pasa.cbentley.framework.core.ui.src4.event.CanvasHostEvent;
+import pasa.cbentley.framework.core.ui.src4.event.EventCanvasHost;
 import pasa.cbentley.framework.core.ui.src4.interfaces.ITechEventHost;
 import pasa.cbentley.framework.core.ui.swing.ctx.CoreUiSwingCtx;
 import pasa.cbentley.framework.core.ui.swing.engine.CanvasHostSwingAbstract;
@@ -53,7 +53,7 @@ public class FrameWindowListener extends ObjectCUC implements WindowListener, Wi
       //#debug
       toDLog().pFlow("", this, FrameWindowListener.class, "windowClosing", LVL_03_FINEST, true);
 
-      CanvasHostEvent ge = new CanvasHostEvent(cuc, ITechEventHost.ACTION_01_CLOSE, canvas);
+      EventCanvasHost ge = new EventCanvasHost(cuc, ITechEventHost.ACTION_01_CLOSE, canvas);
       canvas.eventBridge(ge);
    }
 
